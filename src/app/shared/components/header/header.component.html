@@ -1,0 +1,65 @@
+<nav class="navbar navbar-expand-lg bg-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white" href="#goTop"> F&L </a>
+    <div class="text-white">
+      <button
+        class="btn btn-sm btn-outline-light me-1 order-0"
+        (click)="showGuestModal()"
+      >
+        Soy Invitad&#64;
+      </button>
+    </div>
+  </div>
+</nav>
+<p-dialog
+  header="Header"
+  [(visible)]="isModalGuestVisible"
+  [modal]="true"
+  [position]="'topright'"
+  [style]="{ width: '25rem' }"
+>
+  <ng-template pTemplate="header">
+    <div class="inline-flex align-items-center justify-content-center gap-2">
+      <span class="font-bold white-space-nowrap">
+        <strong>Ingresa tu codigo de invitado</strong>
+      </span>
+    </div>
+  </ng-template>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="guestCode">Te hemos enviado un codigo</label>
+          <input
+            type="text"
+            class="form-control"
+            id="guestCode"
+            placeholder="Ingresalo aqui"
+          />
+        </div>
+        <div class="form-group mt-2">
+          <label for="guestPlace">¿Para qué evento es tu invitación?</label>
+          <select
+            class="form-select"
+            id="guestPlace"
+            aria-label="Default select example"
+          >
+            <option selected disabled>Selecciona un evento</option>
+            <option *ngFor="let event of events" [value]="event.value">
+              {{ event.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Cancelar"
+      [text]="true"
+      severity="secondary"
+      (onClick)="isModalGuestVisible = false"
+    />
+    <p-button label="Siguiente" [outlined]="true" severity="secondary" />
+  </ng-template>
+</p-dialog>
