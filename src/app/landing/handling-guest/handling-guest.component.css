@@ -1,0 +1,40 @@
+.main-container {
+  position: relative;
+  background-size: cover;
+  background-attachment: fixed; /* Fixed background image */
+  height: 100%;
+  overflow: hidden;
+}
+
+:host ::ng-deep .p-highlight {
+  background: #000000;
+  border-color: #69680e;
+}
+
+.was-validated .form-control:valid,
+.form-control.is-valid {
+  border-color: #000000;
+}
+
+.form-check-input:checked {
+  background-color: #000000;
+  border-color: #000000;
+}
+
+.card-responsive {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .card-responsive {
+    width: 90%;
+  }
+}
+
+@media (min-width: 769px) {
+  .card-responsive {
+    width: 50%;
+  }
+}

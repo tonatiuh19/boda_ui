@@ -4,3 +4,8 @@ import { LandingState } from '../../../landing,model';
 
 export const selectLandingState =
   createFeatureSelector<LandingState>(LANDING_FEATURE_KEY);
+
+export const selecIsloading = createSelector(
+  selectLandingState,
+  (state: LandingState) => state.isLoading
+);

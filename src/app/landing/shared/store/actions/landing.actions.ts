@@ -17,3 +17,5 @@ export const getGuestFailure = createAction(
   `${actor} Get Guest Failure`,
   props<{ error: string }>()
 );
+
+export const cleanGuest = createAction(`${actor} Clean Guest`);

@@ -27,30 +27,55 @@
   </ng-template>
   <div class="container">
     <div class="row">
-      <div class="col-sm-12">
-        <div class="form-group">
-          <label for="guestCode">Te hemos enviado un codigo</label>
-          <input
-            type="text"
-            class="form-control"
-            id="guestCode"
-            placeholder="Ingresalo aqui"
-          />
+      <form
+        [formGroup]="formGetGuest"
+        (ngSubmit)="onSubmitGuestForm()"
+        #formRef="ngForm"
+      >
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label for="guestCode">Te hemos enviado un codigo</label>
+            <input
+              type="text"
+              class="form-control"
+              id="guestCode"
+              formControlName="guestCode"
+              placeholder="Ingresalo aqui"
+              [ngClass]="{
+                'is-invalid':
+                  formGetGuest.get('guestCode')?.invalid &&
+                  formGetGuest.get('guestCode')?.touched,
+                'is-valid': formGetGuest.get('guestCode')?.valid
+              }"
+            />
+          </div>
+          <div class="form-group mt-2">
+            <label for="guestPlace">¿Para qué evento es tu invitación?</label>
+            <select
+              class="form-select"
+              id="guestPlace"
+              formControlName="guestPlace"
+              aria-label="Default select example"
+              [ngClass]="{
+                'is-invalid':
+                  formGetGuest.get('guestPlace')?.invalid &&
+                  formGetGuest.get('guestPlace')?.touched,
+                'is-valid': formGetGuest.get('guestPlace')?.valid
+              }"
+            >
+              <option selected disabled>Selecciona un evento</option>
+              <option *ngFor="let event of events" [value]="event.value">
+                {{ event.label }}
+              </option>
+            </select>
+          </div>
         </div>
-        <div class="form-group mt-2">
-          <label for="guestPlace">¿Para qué evento es tu invitación?</label>
-          <select
-            class="form-select"
-            id="guestPlace"
-            aria-label="Default select example"
+        <div class="col-sm-12 text-center mt-2" *ngIf="isError">
+          <span class="badge text-bg-danger w-100"
+            >Tu código no es válido o no estás invitado.</span
           >
-            <option selected disabled>Selecciona un evento</option>
-            <option *ngFor="let event of events" [value]="event.value">
-              {{ event.label }}
-            </option>
-          </select>
         </div>
-      </div>
+      </form>
     </div>
   </div>
   <ng-template pTemplate="footer">
@@ -60,6 +85,13 @@
       severity="secondary"
       (onClick)="isModalGuestVisible = false"
     />
-    <p-button label="Siguiente" [outlined]="true" severity="secondary" />
+
+    <p-button
+      type="button"
+      label="Siguiente"
+      [outlined]="true"
+      severity="secondary"
+      (click)="submitGuestForm()"
+    />
   </ng-template>
 </p-dialog>

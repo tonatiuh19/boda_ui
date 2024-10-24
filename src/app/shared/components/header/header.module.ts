@@ -5,6 +5,8 @@ import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropdownModule } from 'primeng/dropdown';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MessagesModule } from 'primeng/messages';
 
 @NgModule({
   declarations: [HeaderComponent],
@@ -14,6 +16,8 @@ import { DropdownModule } from 'primeng/dropdown';
     ButtonModule,
     BrowserAnimationsModule,
     DropdownModule,
+    ReactiveFormsModule,
+    MessagesModule,
   ],
   exports: [HeaderComponent],
 })

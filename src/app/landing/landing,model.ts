@@ -3,6 +3,7 @@ export const DOMAIN = 'http://localhost:8015/api';
 
 export interface LandingState {
   guest?: GuestModel;
+  isValidated?: boolean;
   isLoading?: boolean;
   isError?: boolean;
 }
@@ -33,4 +34,5 @@ export interface EventDetailsModel {
   postal_code: number;
   country: string;
   label: string;
+  google_link: string;
 }

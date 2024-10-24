@@ -23,6 +23,7 @@ export const LandingReducer = createRehydrateReducer(
     return {
       ...state,
       guest,
+      isValidated: true,
       isLoading: false,
       isError: false,
     };
@@ -30,8 +31,16 @@ export const LandingReducer = createRehydrateReducer(
   on(LandingActions.getGuestFailure, (state: LandingState, { error }) => {
     return {
       ...state,
+      isValidated: false,
       isLoading: false,
       isError: true,
+    };
+  }),
+  on(LandingActions.cleanGuest, (state: LandingState) => {
+    return {
+      ...state,
+      isValidated: false,
+      ...initialLandingState,
     };
   })
 );

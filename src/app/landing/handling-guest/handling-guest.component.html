@@ -1,0 +1,166 @@
+<section
+  class="d-flex justify-content-center align-items-center main-container pt-5"
+  id="goTop"
+>
+  <div class="card card-responsive">
+    <div class="card-body">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-sm-12">
+            <h5>{{ guestInfo.event_details.label }}</h5>
+          </div>
+          <div class="col-sm-12">
+            <h1>{{ guestInfo.full_name }}</h1>
+          </div>
+          <div class="col-sm-12">
+            <span
+              ><em>{{ getProcessedText(guestInfo.guest_note) }}</em></span
+            >
+          </div>
+          <div class="col-sm-12 mt-4">
+            <button
+              class="btn btn-sm btn-outline-dark"
+              (click)="onLocationLink()"
+            >
+              <fa-icon [icon]="faMapMarkerAlt"></fa-icon>
+              {{ getProcessedText(guestInfo.event_details.place) }}
+            </button>
+          </div>
+          <div class="col-sm-12">
+            <small>{{ getProcessedText(addressString) }}</small>
+          </div>
+        </div>
+        <div class="col-sm-12 text-center mt-5">
+          <h5>¿Confirmas tu asistencia?</h5>
+          <form [formGroup]="formGroupExtraGuest">
+            <p-selectButton
+              [options]="stateOptions"
+              formControlName="valueConfirmation"
+              optionLabel="label"
+              optionValue="value"
+            />
+          </form>
+        </div>
+        <div class="col-sm-12 text-center mt-5">
+          <form [formGroup]="formGroupExtraGuest">
+            <div class="form-group">
+              <input
+                type="email"
+                class="form-control mt-2"
+                placeholder="Escribe tu correo electrónico"
+                formControlName="email"
+                [class.is-invalid]="
+                  formGroupExtraGuest.get('email')?.invalid &&
+                  formGroupExtraGuest.get('email')?.touched
+                "
+                [class.is-valid]="
+                  formGroupExtraGuest.get('email')?.valid &&
+                  formGroupExtraGuest.get('email')?.touched
+                "
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="tel"
+                class="form-control mt-2"
+                placeholder="Escribe tu número de teléfono"
+                formControlName="phone"
+                [class.is-invalid]="
+                  formGroupExtraGuest.get('phone')?.invalid &&
+                  formGroupExtraGuest.get('phone')?.touched
+                "
+                [class.is-valid]="
+                  formGroupExtraGuest.get('phone')?.valid &&
+                  formGroupExtraGuest.get('phone')?.touched
+                "
+              />
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-12 text-center mt-5">
+          <h6>
+            Tu invitación incluye a {{ guestInfo.guest_extras }} acompañante(s).
+            ¿Confirmas su asistencia?
+          </h6>
+          <form [formGroup]="formGroupExtraGuest">
+            <p-selectButton
+              [options]="stateOptions"
+              formControlName="valueExtra"
+              optionLabel="label"
+              optionValue="value"
+            />
+          </form>
+        </div>
+        <div class="col-sm-12 text-center mt-3">
+          <h6 *ngIf="isExtrasGuestVisible">
+            Escribe a continuación el nombre de tu(s) acompañante(s)
+          </h6>
+          <form
+            [formGroup]="formGroupExtraGuest"
+            (ngSubmit)="onSubmit()"
+            #formRefInvitation="ngForm"
+          >
+            <div
+              class="row"
+              *ngFor="
+                let extra of [].constructor(guestInfo.guest_extras);
+                let i = index
+              "
+            >
+              <div class="col-sm-8" *ngIf="isExtrasGuestVisible">
+                <input
+                  type="text"
+                  class="form-control mt-2"
+                  placeholder="Nombre del acompañante {{ i + 1 }}"
+                  [formControlName]="'extraGuest' + i"
+                  [ngClass]="{
+                    'is-invalid':
+                      formGroupExtraGuest.get('extraGuest' + i)?.invalid &&
+                      formGroupExtraGuest.get('extraGuest' + i)?.touched,
+                    'is-valid':
+                      formGroupExtraGuest.get('extraGuest' + i)?.valid &&
+                      formGroupExtraGuest.get('extraGuest' + i)?.touched
+                  }"
+                />
+                <div
+                  *ngIf="
+                    formGroupExtraGuest.get('extraGuest' + i)?.invalid &&
+                    formGroupExtraGuest.get('extraGuest' + i)?.touched
+                  "
+                  class="text-danger"
+                >
+                  Nombre del acompañante es requerido.
+                </div>
+              </div>
+              <div
+                class="col-sm-4 d-flex align-items-center"
+                *ngIf="isExtrasGuestVisible"
+              >
+                <input
+                  type="checkbox"
+                  class="form-check-input mt-2"
+                  [formControlName]="'extraGuestCheckbox' + i"
+                  (change)="onCheckboxChange(i)"
+                />
+                <label class="form-check-label mt-2 ms-2"> Asistirá </label>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-sm-3">
+                <button
+                  class="btn btn-outline-danger w-100"
+                  (click)="onCancel()"
+                >
+                  Cancelar
+                </button>
+              </div>
+              <div class="col-sm-9">
+                <button type="submit" class="btn btn-dark w-100">Enviar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
