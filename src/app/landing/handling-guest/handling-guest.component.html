@@ -75,6 +75,13 @@
                 "
               />
             </div>
+            <app-video-upload
+              [uploadForm]="formGroupExtraGuest"
+              videoControlName="video"
+              [loading]="loading"
+              (loadingChange)="onLoadingChange($event)"
+              (messageChange)="onMessageChange($event)"
+            ></app-video-upload>
           </form>
         </div>
         <div class="col-sm-12 text-center mt-5">

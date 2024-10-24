@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -13,6 +13,7 @@ import { getProcessedText } from '../../shared/utils/get-proccessed-text';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { LandingActions } from '../shared/store/actions';
 import { GuestModel } from '../landing,model';
+import { VideoUploadComponent } from '../shared/components/video-upload/video-upload.component';
 
 @Component({
   selector: 'app-handling-guest',
@@ -20,6 +21,7 @@ import { GuestModel } from '../landing,model';
   styleUrls: ['./handling-guest.component.css'],
 })
 export class HandlingGuestComponent implements OnInit, OnDestroy {
+  @ViewChild(VideoUploadComponent) videoUploadComponent!: VideoUploadComponent;
   public selectLandingState$ = this.store.select(
     fromLanding.selectLandingState
   );
@@ -39,6 +41,9 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
   getProcessedText = getProcessedText;
   public guestInfo: GuestModel = {} as GuestModel;
 
+  loading = false;
+  message = '';
+
   private unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -55,6 +60,7 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
         Validators.pattern(/^\d{10}$/),
       ]),
       email: new FormControl('', [Validators.required, Validators.email]),
+      video: new FormControl(null, Validators.required),
     });
   }
 
@@ -154,6 +160,7 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     if (this.formGroupExtraGuest.valid) {
       // Handle form submission
+      this.videoUploadComponent.uploadVideo();
       console.log(this.formGroupExtraGuest.value);
     } else {
       // Handle form errors
@@ -169,5 +176,15 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
 
   onLocationLink(): void {
     window.open(this.guestInfo.event_details.google_link, '_blank');
+  }
+
+  onLoadingChange(loading: boolean) {
+    this.loading = loading;
+    console.log('Loading:', loading);
+  }
+
+  onMessageChange(message: string) {
+    this.message = message;
+    console.log('Message:', message);
   }
 }

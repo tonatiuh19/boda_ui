@@ -1,0 +1,26 @@
+<div class="container">
+  <form [formGroup]="uploadForm">
+    <div class="form-group">
+      <label for="video">Upload Video</label>
+      <input
+        type="file"
+        id="video"
+        (change)="onFileChange($event)"
+        formControlName="video"
+        accept="video/*"
+      />
+      <div
+        *ngIf="
+          uploadForm.get('video')?.invalid && uploadForm.get('video')?.touched
+        "
+        class="text-danger"
+      >
+        Video is required
+      </div>
+    </div>
+  </form>
+  <div *ngIf="loading" class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+  <div *ngIf="message" class="alert alert-info">{{ message }}</div>
+</div>
