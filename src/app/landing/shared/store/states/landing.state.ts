@@ -6,4 +6,6 @@ export const initialLandingState: LandingState = {
   guest: {} as GuestModel,
   isLoading: false,
   isError: false,
+  isMessage: 0,
+  isConfirmed: 0,
 };

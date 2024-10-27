@@ -42,5 +42,53 @@ export const LandingReducer = createRehydrateReducer(
       isValidated: false,
       ...initialLandingState,
     };
-  })
+  }),
+  on(LandingActions.setLoading, (state: LandingState) => {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }),
+  on(LandingActions.cleanLoading, (state: LandingState) => {
+    return {
+      ...state,
+      isLoading: false,
+    };
+  }),
+  on(
+    LandingActions.updateMessageFromVideo,
+    (state: LandingState, { isMessage }) => {
+      return {
+        ...state,
+        isMessage,
+      };
+    }
+  ),
+  on(LandingActions.updateGuestInformation, (state: LandingState, { data }) => {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }),
+  on(
+    LandingActions.updateGuestInformationSuccess,
+    (state: LandingState, { isConfirmed }) => {
+      return {
+        ...state,
+        isConfirmed,
+        isLoading: false,
+        isError: false,
+      };
+    }
+  ),
+  on(
+    LandingActions.updateGuestInformationFailure,
+    (state: LandingState, { error }) => {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    }
+  )
 );

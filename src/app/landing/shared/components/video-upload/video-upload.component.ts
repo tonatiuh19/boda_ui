@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { fromLanding } from '../../store/selectors';
 import { Subject, takeUntil } from 'rxjs';
+import { LandingActions } from '../../store/actions';
 
 @Component({
   selector: 'app-video-upload',
@@ -15,7 +16,7 @@ export class VideoUploadComponent implements OnInit {
   @Input() videoControlName: string = 'video';
   @Input() loading: boolean = false;
   @Output() loadingChange = new EventEmitter<boolean>();
-  @Output() messageChange = new EventEmitter<string>();
+  @Output() messageChange = new EventEmitter<any>();
 
   public selectLandingState$ = this.store.select(
     fromLanding.selectLandingState

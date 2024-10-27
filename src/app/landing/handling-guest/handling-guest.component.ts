@@ -26,6 +26,10 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
     fromLanding.selectLandingState
   );
 
+  public isloading$ = this.store.select(fromLanding.selecIsloading);
+
+  public isMessage$ = this.store.select(fromLanding.selectIsMessage);
+
   formGroupExtraGuest!: FormGroup;
   stateOptions: any[] = [
     { label: 'Si', value: 'yes' },
@@ -42,7 +46,7 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
   public guestInfo: GuestModel = {} as GuestModel;
 
   loading = false;
-  message = '';
+  message: number = 0;
 
   private unsubscribe$ = new Subject<void>();
 
@@ -72,6 +76,19 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
         this.guestInfo = state.guest ?? ({} as GuestModel);
         this.addressString = `${this.guestInfo.event_details.address_line1}, ${this.guestInfo.event_details.address_line2}, ${this.guestInfo.event_details.city}, ${this.guestInfo.event_details.state}, ${this.guestInfo.event_details.postal_code}, ${this.guestInfo.event_details.country}`;
         this.updateNumberOfExtras();
+      });
+
+    this.isMessage$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((isMessage) => {
+        if (isMessage === 1) {
+          this.store.dispatch(
+            LandingActions.updateGuestInformation({
+              data: this.formGroupExtraGuest.value,
+            })
+          );
+          //this.formGroupExtraGuest.reset();
+        }
       });
 
     this.formGroupExtraGuest.valueChanges
@@ -108,7 +125,6 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
             .get('valueExtra')
             ?.disable({ emitEvent: false });
         }
-        console.log(value);
       });
   }
 
@@ -180,11 +196,20 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
 
   onLoadingChange(loading: boolean) {
     this.loading = loading;
-    console.log('Loading:', loading);
+    if (this.loading) {
+      this.store.dispatch(LandingActions.setLoading());
+    } else {
+      this.store.dispatch(LandingActions.cleanLoading());
+    }
   }
 
-  onMessageChange(message: string) {
+  onMessageChange(message: number) {
     this.message = message;
-    console.log('Message:', message);
+
+    this.store.dispatch(
+      LandingActions.updateMessageFromVideo({
+        isMessage: this.message,
+      })
+    );
   }
 }

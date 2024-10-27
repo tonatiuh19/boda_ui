@@ -1,26 +1,34 @@
 <div class="container">
   <form [formGroup]="uploadForm">
     <div class="form-group">
-      <label for="video">Upload Video</label>
-      <input
-        type="file"
-        id="video"
-        (change)="onFileChange($event)"
-        formControlName="video"
-        accept="video/*"
-      />
-      <div
+      <div class="mb-3">
+        <label for="video" class="form-label"
+          >Ingresa un video donde nos cuentes un mensaje especial, maximo 30
+          segundos</label
+        >
+        <input
+          class="form-control"
+          type="file"
+          type="file"
+          id="video"
+          (change)="onFileChange($event)"
+          formControlName="video"
+          accept="video/*"
+          [ngClass]="{
+            'is-invalid':
+              uploadForm.get('video')?.invalid &&
+              uploadForm.get('video')?.touched,
+            'is-valid': uploadForm.get('video')?.valid
+          }"
+        />
+      </div>
+      <span
         *ngIf="
           uploadForm.get('video')?.invalid && uploadForm.get('video')?.touched
         "
-        class="text-danger"
+        class="badge text-bg-danger"
+        >El video es obligatorio</span
       >
-        Video is required
-      </div>
     </div>
   </form>
-  <div *ngIf="loading" class="spinner-border" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
-  <div *ngIf="message" class="alert alert-info">{{ message }}</div>
 </div>

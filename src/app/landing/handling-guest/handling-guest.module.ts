@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { VideoUploadModule } from '../shared/components/video-upload/video-upload.module';
+import { LoadingMaskModule } from '../../shared/components/loading-mask/loading-mask.module';
 
 @NgModule({
   declarations: [HandlingGuestComponent],
@@ -18,6 +19,7 @@ import { VideoUploadModule } from '../shared/components/video-upload/video-uploa
     DropdownModule,
     FontAwesomeModule,
     VideoUploadModule,
+    LoadingMaskModule,
   ],
   exports: [HandlingGuestComponent],
 })

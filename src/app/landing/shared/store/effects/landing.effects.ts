@@ -30,6 +30,24 @@ export class LandingEffects {
     );
   });
 
+  updateGuestInformation$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(LandingActions.updateGuestInformation),
+      switchMap(({ data }) => {
+        return this.landingService.updateGuestDetails(data).pipe(
+          map((response) => {
+            return LandingActions.updateGuestInformationSuccess({
+              isConfirmed: response,
+            });
+          }),
+          catchError((error) => {
+            return of(LandingActions.updateGuestInformationFailure({ error }));
+          })
+        );
+      })
+    );
+  });
+
   constructor(
     private actions$: Actions,
     private store: Store,

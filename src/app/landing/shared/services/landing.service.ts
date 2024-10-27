@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { DOMAIN } from '../../landing,model';
 
@@ -8,6 +8,7 @@ import { DOMAIN } from '../../landing,model';
 })
 export class LandingService {
   public GET_GUEST_BY_CODE_AND_EVENT_TYPE = `${DOMAIN}/getGuestByCodeAndEventType.php`;
+  public UPDATE_GUEST_DETAILS = `${DOMAIN}/updateGuestDetails.php`;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -25,5 +26,15 @@ export class LandingService {
           return response;
         })
       );
+  }
+
+  public updateGuestDetails(data: any): Observable<any> {
+    console.log('fromService', data);
+    return of(1);
+    /* return this.httpClient.post(this.UPDATE_GUEST_DETAILS, data).pipe(
+      map((response) => {
+        return response;
+      })
+    );*/
   }
 }

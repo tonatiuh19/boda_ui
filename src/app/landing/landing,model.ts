@@ -6,6 +6,8 @@ export interface LandingState {
   isValidated?: boolean;
   isLoading?: boolean;
   isError?: boolean;
+  isMessage?: number;
+  isConfirmed?: number;
 }
 
 export interface GuestModel {

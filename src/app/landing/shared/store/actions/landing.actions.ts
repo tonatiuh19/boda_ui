@@ -19,3 +19,27 @@ export const getGuestFailure = createAction(
 );
 
 export const cleanGuest = createAction(`${actor} Clean Guest`);
+
+export const setLoading = createAction(`${actor} Set Loading`);
+
+export const cleanLoading = createAction(`${actor} Clean Loading`);
+
+export const updateMessageFromVideo = createAction(
+  `${actor} Update Message From Video`,
+  props<{ isMessage: number }>()
+);
+
+export const updateGuestInformation = createAction(
+  `${actor} Update Guest Information`,
+  props<{ data: any }>()
+);
+
+export const updateGuestInformationSuccess = createAction(
+  `${actor} Update Guest Information Success`,
+  props<{ isConfirmed: number }>()
+);
+
+export const updateGuestInformationFailure = createAction(
+  `${actor} Update Guest Information Failure`,
+  props<{ error: string }>()
+);
