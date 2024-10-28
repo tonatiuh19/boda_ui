@@ -57,6 +57,24 @@ export class LandingEffects {
     );
   });
 
+  getEventAccommodations$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(LandingActions.getEventAccommodations),
+      switchMap(({ id_event }) => {
+        return this.landingService.getEventAccommodations(id_event).pipe(
+          map((response) => {
+            return LandingActions.getEventAccommodationsSuccess({
+              accommodations: response,
+            });
+          }),
+          catchError((error) => {
+            return of(LandingActions.getEventAccommodationsFailure({ error }));
+          })
+        );
+      })
+    );
+  });
+
   constructor(
     private actions$: Actions,
     private store: Store,

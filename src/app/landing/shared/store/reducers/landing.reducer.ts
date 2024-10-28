@@ -90,5 +90,35 @@ export const LandingReducer = createRehydrateReducer(
         isError: true,
       };
     }
+  ),
+  on(
+    LandingActions.getEventAccommodations,
+    (state: LandingState, { id_event }) => {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+  ),
+  on(
+    LandingActions.getEventAccommodationsSuccess,
+    (state: LandingState, { accommodations }) => {
+      return {
+        ...state,
+        accommodations,
+        isLoading: false,
+        isError: false,
+      };
+    }
+  ),
+  on(
+    LandingActions.getEventAccommodationsFailure,
+    (state: LandingState, { error }) => {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    }
   )
 );

@@ -10,9 +10,15 @@ import { Store } from '@ngrx/store';
 import { fromLanding } from '../shared/store/selectors';
 import { Subject, takeUntil, distinctUntilChanged } from 'rxjs';
 import { getProcessedText } from '../../shared/utils/get-proccessed-text';
-import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faMapMarkerAlt,
+  faCheckCircle,
+  faSuitcaseRolling,
+  faTimes,
+  faExternalLinkAlt,
+} from '@fortawesome/free-solid-svg-icons';
 import { LandingActions } from '../shared/store/actions';
-import { GuestModel } from '../landing,model';
+import { EventAccommodationsModel, GuestModel } from '../landing,model';
 import { VideoUploadComponent } from '../shared/components/video-upload/video-upload.component';
 
 @Component({
@@ -41,12 +47,21 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
 
   addressString: string = '';
   faMapMarkerAlt = faMapMarkerAlt;
+  faCheckCircle = faCheckCircle;
+  faSuitcaseRolling = faSuitcaseRolling;
+  faExternalLinkAlt = faExternalLinkAlt;
+  faTimes = faTimes;
 
   getProcessedText = getProcessedText;
   public guestInfo: GuestModel = {} as GuestModel;
 
   loading = false;
   message: number = 0;
+
+  isConfirmed = false;
+
+  accomodationList: EventAccommodationsModel[] = [];
+  accomodationPanelVisible: boolean = false;
 
   private unsubscribe$ = new Subject<void>();
 
@@ -76,7 +91,21 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
         this.guestInfo = state.guest ?? ({} as GuestModel);
         this.addressString = `${this.guestInfo.event_details.address_line1}, ${this.guestInfo.event_details.address_line2}, ${this.guestInfo.event_details.city}, ${this.guestInfo.event_details.state}, ${this.guestInfo.event_details.postal_code}, ${this.guestInfo.event_details.country}`;
         this.updateNumberOfExtras();
+        if (this.guestInfo.confirmation === 1) {
+          this.isConfirmed = true;
+          this.accomodationList = state.accommodations ?? [];
+        } else {
+          this.isConfirmed = false;
+        }
       });
+
+    if (this.isConfirmed) {
+      this.store.dispatch(
+        LandingActions.getEventAccommodations({
+          id_event: this.guestInfo.event_details.id_event,
+        })
+      );
+    }
 
     this.isMessage$
       .pipe(takeUntil(this.unsubscribe$))
@@ -215,5 +244,9 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
         isMessage: this.message,
       })
     );
+  }
+
+  onAccomodationPanelToggle() {
+    this.accomodationPanelVisible = !this.accomodationPanelVisible;
   }
 }

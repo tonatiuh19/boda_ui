@@ -9,6 +9,7 @@ import { DOMAIN } from '../../landing,model';
 export class LandingService {
   public GET_GUEST_BY_CODE_AND_EVENT_TYPE = `${DOMAIN}/getGuestByCodeAndEventType.php`;
   public UPDATE_GUEST_DETAILS = `${DOMAIN}/updateGuestDetails.php`;
+  public GET_EVENT_ACCOMMODATIONS = `${DOMAIN}/getEventAccommodations.php`;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -36,5 +37,17 @@ export class LandingService {
         return response;
       })
     );
+  }
+
+  public getEventAccommodations(id_event: number): Observable<any> {
+    return this.httpClient
+      .post(this.GET_EVENT_ACCOMMODATIONS, {
+        id_event,
+      })
+      .pipe(
+        map((response) => {
+          return response;
+        })
+      );
   }
 }

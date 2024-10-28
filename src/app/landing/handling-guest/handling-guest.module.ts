@@ -8,6 +8,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { VideoUploadModule } from '../shared/components/video-upload/video-upload.module';
 import { LoadingMaskModule } from '../../shared/components/loading-mask/loading-mask.module';
+import { SidebarModule } from 'primeng/sidebar';
 
 @NgModule({
   declarations: [HandlingGuestComponent],
@@ -20,6 +21,7 @@ import { LoadingMaskModule } from '../../shared/components/loading-mask/loading-
     FontAwesomeModule,
     VideoUploadModule,
     LoadingMaskModule,
+    SidebarModule,
   ],
   exports: [HandlingGuestComponent],
 })

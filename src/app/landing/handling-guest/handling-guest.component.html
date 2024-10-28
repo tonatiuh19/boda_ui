@@ -6,6 +6,16 @@
   <div class="card card-responsive">
     <div class="card-body">
       <div class="container">
+        <div class="row text-center mb-3" *ngIf="isConfirmed">
+          <div class="col-sm-12">
+            <h1 class="text-center">
+              <span class="text-success"
+                ><fa-icon [icon]="faCheckCircle"></fa-icon> ¡Gracias por tu
+                confirmación!</span
+              >
+            </h1>
+          </div>
+        </div>
         <div class="row text-center">
           <div class="col-sm-12">
             <h5>{{ guestInfo.event_details.label }}</h5>
@@ -26,12 +36,21 @@
               <fa-icon [icon]="faMapMarkerAlt"></fa-icon>
               {{ getProcessedText(guestInfo.event_details.place) }}
             </button>
+
+            <button
+              class="btn btn-sm btn-outline-dark ms-1"
+              (click)="onAccomodationPanelToggle()"
+              *ngIf="isConfirmed"
+            >
+              <fa-icon [icon]="faSuitcaseRolling"></fa-icon>
+              Recomendaciones de hospedaje
+            </button>
           </div>
           <div class="col-sm-12">
             <small>{{ getProcessedText(addressString) }}</small>
           </div>
         </div>
-        <div class="col-sm-12 text-center mt-5">
+        <div class="col-sm-12 text-center mt-5" *ngIf="!isConfirmed">
           <h5>¿Confirmas tu asistencia?</h5>
           <form [formGroup]="formGroupExtraGuest">
             <p-selectButton
@@ -42,7 +61,7 @@
             />
           </form>
         </div>
-        <div class="col-sm-12 text-center mt-5">
+        <div class="col-sm-12 text-center mt-5" *ngIf="!isConfirmed">
           <form [formGroup]="formGroupExtraGuest">
             <div class="form-group">
               <input
@@ -85,7 +104,7 @@
             ></app-video-upload>
           </form>
         </div>
-        <div class="col-sm-12 text-center mt-5">
+        <div class="col-sm-12 text-center mt-5" *ngIf="!isConfirmed">
           <h6>
             Tu invitación incluye a {{ guestInfo.guest_extras }} acompañante(s).
             ¿Confirmas su asistencia?
@@ -99,7 +118,7 @@
             />
           </form>
         </div>
-        <div class="col-sm-12 text-center mt-3">
+        <div class="col-sm-12 text-center mt-3" *ngIf="!isConfirmed">
           <h6 *ngIf="isExtrasGuestVisible">
             Escribe a continuación el nombre de tu(s) acompañante(s)
           </h6>
@@ -172,3 +191,59 @@
     </div>
   </div>
 </section>
+<p-sidebar [(visible)]="accomodationPanelVisible" position="right">
+  <div class="row">
+    <div class="col-sm-10">
+      <h3 class="text-center">Recomendaciones de hospedaje</h3>
+    </div>
+    <div class="col-sm-1">
+      <button
+        class="btn btn-outline-danger btn-sm"
+        (click)="onAccomodationPanelToggle()"
+      >
+        <fa-icon [icon]="faTimes"></fa-icon>
+      </button>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-sm-12">
+      <ul class="list-group list-group-flush">
+        <li
+          class="list-group-item"
+          *ngFor="let accommodation of accomodationList"
+        >
+          <div class="row">
+            <div class="col-sm-8">
+              <span class="h5">{{
+                getProcessedText(accommodation.title)
+              }}</span>
+            </div>
+            <div class="col-sm-4">
+              <a
+                [href]="accommodation.address_link"
+                target="_blank"
+                class="btn btn-sm btn-outline-dark"
+              >
+                <fa-icon [icon]="faExternalLinkAlt"></fa-icon>
+                Ver más
+              </a>
+            </div>
+          </div>
+          <div
+            class="row mmt-2 mb-1"
+            *ngIf="
+              accommodation.promo_code && accommodation.promo_code.trim() !== ''
+            "
+          >
+            <div class="col-sm-12">
+              Codigo de descuento:
+              <strong>
+                {{ accommodation.promo_code }}
+              </strong>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</p-sidebar>
