@@ -48,6 +48,15 @@ export class LandingEffects {
     );
   });
 
+  updateGuestInformationSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(LandingActions.updateGuestInformationSuccess),
+      map(() => {
+        return LandingActions.cleanGuest();
+      })
+    );
+  });
+
   constructor(
     private actions$: Actions,
     private store: Store,

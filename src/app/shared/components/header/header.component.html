@@ -47,6 +47,8 @@
                   formGetGuest.get('guestCode')?.touched,
                 'is-valid': formGetGuest.get('guestCode')?.valid
               }"
+              [(ngModel)]="guestCode"
+              (ngModelChange)="transformToUppercase()"
             />
           </div>
           <div class="form-group mt-2">

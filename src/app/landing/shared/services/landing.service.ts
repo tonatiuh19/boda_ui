@@ -30,11 +30,11 @@ export class LandingService {
 
   public updateGuestDetails(data: any): Observable<any> {
     console.log('fromService', data);
-    return of(1);
-    /* return this.httpClient.post(this.UPDATE_GUEST_DETAILS, data).pipe(
+    //return of(1);
+    return this.httpClient.post(this.UPDATE_GUEST_DETAILS, data).pipe(
       map((response) => {
         return response;
       })
-    );*/
+    );
   }
 }

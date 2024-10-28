@@ -32,6 +32,8 @@ export class HeaderComponent implements OnInit {
     { label: 'Boda Religiosa', value: 5 },
   ];
 
+  guestCode: string = '';
+
   private unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -107,5 +109,9 @@ export class HeaderComponent implements OnInit {
 
   clearError() {
     this.messages = [];
+  }
+
+  transformToUppercase() {
+    this.guestCode = this.guestCode.toUpperCase();
   }
 }

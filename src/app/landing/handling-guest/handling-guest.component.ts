@@ -84,9 +84,13 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
         if (isMessage === 1) {
           this.store.dispatch(
             LandingActions.updateGuestInformation({
-              data: this.formGroupExtraGuest.value,
+              data: {
+                ...this.formGroupExtraGuest.value,
+                id_guest: this.guestInfo.id_guest,
+              },
             })
           );
+          this.onCancel();
           //this.formGroupExtraGuest.reset();
         }
       });
