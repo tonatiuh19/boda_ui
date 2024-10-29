@@ -1,4 +1,16 @@
-<div class="timer-clock">
-  <div class="col-2">Meses:</div>
-  <p>Time Remaining: {{ time }}</p>
+<div class="container">
+  <div class="row text-center">
+    <div class="col text-center timer-clock"><strong>Meses:</strong></div>
+    <div class="col text-center timer-clock"><strong>Dias:</strong></div>
+    <div class="col text-center timer-clock"><strong>Horas:</strong></div>
+    <div class="col text-center timer-clock"><strong>Minutos:</strong></div>
+    <div class="col text-center timer-clock"><strong>Segundos:</strong></div>
+  </div>
+  <div class="row text-center">
+    <div class="col text-center timer-clock">{{ time.months }}</div>
+    <div class="col text-center timer-clock">{{ time.days }}</div>
+    <div class="col text-center timer-clock">{{ time.hours }}</div>
+    <div class="col text-center timer-clock">{{ time.minutes }}</div>
+    <div class="col text-center timer-clock">{{ time.seconds }}</div>
+  </div>
 </div>

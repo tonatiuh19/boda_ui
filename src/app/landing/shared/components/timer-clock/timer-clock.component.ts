@@ -8,7 +8,13 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 export class TimerClockComponent implements OnInit, OnDestroy {
   @Input() startDate!: string;
   @Input() endDate!: string;
-  time: {} = {};
+  time = {
+    months: '',
+    days: '',
+    hours: '',
+    minutes: '',
+    seconds: '',
+  };
   private intervalId: any;
 
   ngOnInit(): void {
@@ -34,7 +40,13 @@ export class TimerClockComponent implements OnInit, OnDestroy {
     const timeDiff = end.getTime() - now.getTime();
 
     if (timeDiff <= 0) {
-      this.time = {};
+      this.time = {
+        months: '',
+        days: '',
+        hours: '',
+        minutes: '',
+        seconds: '',
+      };
       clearInterval(this.intervalId);
     } else {
       const months = this.padZero(

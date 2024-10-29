@@ -52,3 +52,18 @@
     color: white; /* Change text color for mobile screens */
   }
 }
+
+.hover-card {
+  border: 2px solid #d4af37; /* Gold color for a vintage look */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, border-radius 0.3s;
+}
+
+.hover-card:hover {
+  background-color: var(--bs-primary);
+  color: white;
+  border: 2px solid #d4af37;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 40px rgba(0, 0, 0, 0.2);
+}
