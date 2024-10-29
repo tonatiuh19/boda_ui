@@ -75,6 +75,28 @@ export class LandingEffects {
     );
   });
 
+  getImagesVideosFromServer$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(LandingActions.getImagesVideosFromServer),
+      switchMap(({ mainDirectory, secondaryDirectory }) => {
+        return this.landingService
+          .getMainImagesVideos(mainDirectory, secondaryDirectory)
+          .pipe(
+            map((response) => {
+              return LandingActions.getImagesVideosFromServerSuccess({
+                data: response,
+              });
+            }),
+            catchError((error) => {
+              return of(
+                LandingActions.getImagesVideosFromServerFailure({ error })
+              );
+            })
+          );
+      })
+    );
+  });
+
   constructor(
     private actions$: Actions,
     private store: Store,

@@ -120,5 +120,32 @@ export const LandingReducer = createRehydrateReducer(
         isError: true,
       };
     }
+  ),
+  on(LandingActions.getImagesVideosFromServer, (state: LandingState, {}) => {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }),
+  on(
+    LandingActions.getImagesVideosFromServerSuccess,
+    (state: LandingState, { data }) => {
+      return {
+        ...state,
+        landingMedia: data,
+        isLoading: false,
+        isError: false,
+      };
+    }
+  ),
+  on(
+    LandingActions.getImagesVideosFromServerFailure,
+    (state: LandingState, { error }) => {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    }
   )
 );

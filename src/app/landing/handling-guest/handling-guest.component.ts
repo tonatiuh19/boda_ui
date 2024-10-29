@@ -16,6 +16,8 @@ import {
   faSuitcaseRolling,
   faTimes,
   faExternalLinkAlt,
+  faArrowLeft,
+  faGifts,
 } from '@fortawesome/free-solid-svg-icons';
 import { LandingActions } from '../shared/store/actions';
 import { EventAccommodationsModel, GuestModel } from '../landing,model';
@@ -51,6 +53,8 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
   faSuitcaseRolling = faSuitcaseRolling;
   faExternalLinkAlt = faExternalLinkAlt;
   faTimes = faTimes;
+  faArrowLeft = faArrowLeft;
+  faGifts = faGifts;
 
   getProcessedText = getProcessedText;
   public guestInfo: GuestModel = {} as GuestModel;
@@ -162,6 +166,7 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(LandingActions.cleanGuest());
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }

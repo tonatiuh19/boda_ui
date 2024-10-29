@@ -1,0 +1,33 @@
+<div class="gallery">
+  <div
+    class="gallery-item"
+    *ngFor="let image of images"
+    (click)="openModal(image)"
+  >
+    <img [src]="image.path" [alt]="image.name" class="img-fluid" />
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" [class.show]="selectedImage" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <ng-container *ngIf="selectedImage">
+      <video
+        #videoPlayer
+        *ngIf="selectedImage.path.endsWith('.mp4')"
+        class="video-fluid"
+        controls
+      >
+        <source [src]="selectedImage.path" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <img
+        *ngIf="!selectedImage.path.endsWith('.mp4')"
+        [src]="selectedImage.path"
+        [alt]="selectedImage.name"
+        class="modal-image"
+      />
+    </ng-container>
+  </div>
+</div>

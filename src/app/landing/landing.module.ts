@@ -6,6 +6,8 @@ import { FooterModule } from '../shared/components/footer/footer.module';
 import { LoadingMaskModule } from '../shared/components/loading-mask/loading-mask.module';
 import { HandlingGuestModule } from './handling-guest/handling-guest.module';
 import { VideoUploadModule } from './shared/components/video-upload/video-upload.module';
+import { GalleryModule } from './shared/components/gallery/gallery.module';
+import { TimerClockModule } from './shared/components/timer-clock/timer-clock.module';
 
 @NgModule({
   declarations: [LandingComponent],
@@ -16,6 +18,8 @@ import { VideoUploadModule } from './shared/components/video-upload/video-upload
     LoadingMaskModule,
     HandlingGuestModule,
     VideoUploadModule,
+    GalleryModule,
+    TimerClockModule,
   ],
   exports: [LandingComponent],
 })

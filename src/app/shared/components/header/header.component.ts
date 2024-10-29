@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subject, takeUntil } from 'rxjs';
 import { fromLanding } from '../../../landing/shared/store/selectors';
@@ -14,6 +20,9 @@ import { Message } from 'primeng/api';
 })
 export class HeaderComponent implements OnInit {
   @ViewChild('formRef') formRef: any;
+
+  @Input() isMain = true;
+
   public selectLandingState$ = this.store.select(
     fromLanding.selectLandingState
   );
@@ -113,5 +122,27 @@ export class HeaderComponent implements OnInit {
 
   transformToUppercase() {
     this.guestCode = this.guestCode.toUpperCase();
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const navbar = document.getElementById('navbar');
+
+    const targetElement = document.getElementById('target-element');
+
+    if (this.isMain) {
+      if (navbar && targetElement) {
+        const targetPosition = targetElement.getBoundingClientRect().top;
+        const navbarHeight = navbar.offsetHeight;
+
+        if (targetPosition <= navbarHeight) {
+          navbar.classList.add('bg-light');
+        } else {
+          navbar.classList.remove('bg-light');
+        }
+      }
+    } else {
+      navbar ? navbar.classList.add('bg-light') : null;
+    }
   }
 }

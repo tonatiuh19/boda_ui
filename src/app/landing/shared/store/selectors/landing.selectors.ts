@@ -14,3 +14,8 @@ export const selectIsMessage = createSelector(
   selectLandingState,
   (state: LandingState) => state.isMessage
 );
+
+export const selectMainImagesVideos = createSelector(
+  selectLandingState,
+  (state: LandingState) => state.landingMedia
+);

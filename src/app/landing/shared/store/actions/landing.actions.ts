@@ -58,3 +58,18 @@ export const getEventAccommodationsFailure = createAction(
   `${actor} Get Event Accommodations Failure`,
   props<{ error: string }>()
 );
+
+export const getImagesVideosFromServer = createAction(
+  `${actor} Get Images Videos From Server`,
+  props<{ mainDirectory: string; secondaryDirectory: string }>()
+);
+
+export const getImagesVideosFromServerSuccess = createAction(
+  `${actor} Get Images Videos From Server Success`,
+  props<{ data: any }>()
+);
+
+export const getImagesVideosFromServerFailure = createAction(
+  `${actor} Get Images Videos From Server Failure`,
+  props<{ error: string }>()
+);

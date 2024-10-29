@@ -1,13 +1,70 @@
 <app-loading-mask *ngIf="isloading$ | async"></app-loading-mask>
 <app-header></app-header>
 <section
-  class="d-flex justify-content-center align-items-center main-container pt-5"
+  class="d-flex justify-content-center align-items-center main-container"
   id="goTop"
 >
-  <div class="container">
+  <div class="container-fluid full-height">
+    <div class="row">
+      <div
+        class="col-sm-5 text-end full-height d-flex align-items-center justify-content-center content-container"
+      >
+        <div class="row">
+          <div class="col-12">
+            <h1>Bienvenidos a nuestra Boda</h1>
+          </div>
+          <div class="col-12 mt-3">
+            <app-timer-clock
+              [startDate]="mainImagesVideos.startTime"
+              [endDate]="mainImagesVideos.civilMarriage"
+            ></app-timer-clock>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-dark">Descubre más</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-7 bg-main full-height">
+        <ng-container *ngIf="!isMobile; else mobileView">
+          <video class="video-fluid" autoplay muted loop>
+            <source
+              [src]="mainImagesVideos.mainSection[0].path"
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+        </ng-container>
+        <ng-template #mobileView> </ng-template>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="target-element">
+  <div class="container-fluid bg-dark text-white py-5">
     <div class="row text-center">
       <div class="col-sm-12">
-        <h1 class="display-1">Bienvenidos a nuestra Boda</h1>
+        <h2>¡Estamos muy emocionados de celebrar juntos!</h2>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container my-3">
+    <div class="row">
+      <div class="col-sm-12">
+        <app-gallery [images]="mainImagesVideos.secondarySection"></app-gallery>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="target-element">
+  <div class="container-fluid bg-dark text-white py-5">
+    <div class="row text-center">
+      <div class="col-sm-12">
+        <h2>
+          Somos dos viajeros que se encontraron en el mismo sendero, destinados
+          a caminar juntos hacia lo desconocido
+        </h2>
       </div>
     </div>
   </div>

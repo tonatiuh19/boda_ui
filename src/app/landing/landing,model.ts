@@ -4,6 +4,7 @@ export const DOMAIN = 'http://localhost:8015/api';
 export interface LandingState {
   guest?: GuestModel;
   accommodations?: EventAccommodationsModel[];
+  landingMedia?: LandingMediaModel;
   isValidated?: boolean;
   isLoading?: boolean;
   isError?: boolean;
@@ -45,4 +46,20 @@ export interface EventAccommodationsModel {
   title: string;
   address_link: string;
   promo_code: string;
+}
+
+export interface LandingMediaModel {
+  mainSection: DataImagesVideosModel[];
+  secondarySection: DataImagesVideosModel[];
+  startTime: string;
+  civilMarriage: string;
+  religiuosMarriage: string;
+  ladieBachelorTrip: string;
+  manBachelorTrip: string;
+  mixBachelorTrip: string;
+}
+
+export interface DataImagesVideosModel {
+  name: string;
+  path: string;
 }
