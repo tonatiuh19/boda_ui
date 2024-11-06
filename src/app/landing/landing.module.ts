@@ -8,6 +8,7 @@ import { HandlingGuestModule } from './handling-guest/handling-guest.module';
 import { VideoUploadModule } from './shared/components/video-upload/video-upload.module';
 import { GalleryModule } from './shared/components/gallery/gallery.module';
 import { TimerClockModule } from './shared/components/timer-clock/timer-clock.module';
+import { GalleryCarouselModule } from './shared/components/gallery-carousel/gallery-carousel.module';
 
 @NgModule({
   declarations: [LandingComponent],
@@ -20,6 +21,7 @@ import { TimerClockModule } from './shared/components/timer-clock/timer-clock.mo
     VideoUploadModule,
     GalleryModule,
     TimerClockModule,
+    GalleryCarouselModule,
   ],
   exports: [LandingComponent],
 })

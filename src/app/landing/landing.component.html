@@ -1,20 +1,33 @@
 <app-loading-mask *ngIf="isloading$ | async"></app-loading-mask>
-<app-header></app-header>
+<app-header [triggerModal]="triggerModalGuest"></app-header>
 <section
-  class="d-flex justify-content-center align-items-center main-container"
+  class="d-flex justify-content-center align-items-center main-container bg-dark"
   id="goTop"
 >
   <div class="container-fluid full-height">
     <div class="row">
       <div
-        class="col-sm-5 text-end full-height d-flex align-items-center justify-content-center content-container"
+        class="col-sm-5 text-center full-height d-flex align-items-center justify-content-center content-container"
       >
-        <div class="row">
+        <div class="row text-white">
           <div class="col-12">
-            <h1>Bienvenidos a nuestra Boda</h1>
+            <h1 class="animated-title">SAVE the DATE</h1>
+          </div>
+          <div class="col-12">
+            <h3 class="animated-title display-3">Felix & Leslie</h3>
+          </div>
+          <div class="col-12 my-3">
+            <small class="animated-title display-date">
+              15.03.2025 | Guadalajara, Jal.
+            </small>
           </div>
           <div class="col-12 mt-3">
-            <button class="btn btn-dark">Descubre más</button>
+            <button
+              class="btn btn-outline-light animated-button"
+              (click)="scrollToDiscoverMore()"
+            >
+              Confirma tu asistencia
+            </button>
           </div>
         </div>
       </div>
@@ -25,7 +38,7 @@
               [src]="mainImagesVideos.mainSection[0].path"
               type="video/mp4"
             />
-            Your browser does not support the video tag.
+            Your browser does not support the video tag
           </video>
         </ng-container>
         <ng-template #mobileView> </ng-template>
@@ -33,16 +46,16 @@
     </div>
   </div>
 </section>
-<section id="target-element">
-  <div class="container-fluid bg-dark text-white py-5">
-    <div class="row text-center">
+<section id="target-element" class="bg-light text-primary" #discoverMore>
+  <div class="container py-5">
+    <div class="row mt-5 text-center">
       <div class="col-sm-12">
-        <h2>¡Estamos muy emocionados de celebrar juntos!</h2>
+        <h3>¡ESTAMOS muy emocionados DE CELEBRAR JUNTOS !</h3>
       </div>
     </div>
-    <div class="row mt-5 mb-5">
-      <div class="col-sm-6">
-        <div class="card bg-dark text-white hover-card m-1">
+    <div class="row mt-3 mb-5">
+      <div class="col-sm-12">
+        <div class="card hover-card m-1">
           <div class="card-body">
             <div class="container">
               <div class="row">
@@ -62,35 +75,26 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-6">
-        <div class="card bg-dark text-white hover-card m-1">
-          <div class="card-body">
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-12 text-center">
-                  <h4>Boda Religiosa</h4>
-                </div>
-              </div>
-              <div class="row mt-1">
-                <div class="col-sm-12 text-center">
-                  <app-timer-clock
-                    [startDate]="mainImagesVideos.startTime"
-                    [endDate]="mainImagesVideos.religiuosMarriage"
-                  ></app-timer-clock>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 text-center">
+        <button
+          class="btn btn-outline-primary btn-lg"
+          (click)="openModalGuest()"
+        >
+          Soy Invitad&#64;
+        </button>
       </div>
     </div>
   </div>
 </section>
-<section>
-  <div class="container my-3">
+<section class="bg-light">
+  <div class="container py-3">
     <div class="row">
       <div class="col-sm-12">
-        <app-gallery [images]="mainImagesVideos.secondarySection"></app-gallery>
+        <app-gallery-carousel
+          [images]="mainImagesVideos.secondarySection"
+        ></app-gallery-carousel>
       </div>
     </div>
   </div>
@@ -98,11 +102,126 @@
 <section id="target-element">
   <div class="container-fluid bg-dark text-white py-5">
     <div class="row text-center">
+      <div class="col-sm-12 mb-5">
+        <h2>La mejor historia de amor</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <img
+          [src]="mainImagesVideos.secondarySection[0].path"
+          alt="Full Height Full Width Image"
+          class="full-image"
+        />
+      </div>
+      <div class="col-sm-6 d-flex justify-content-center align-items-center">
+        <div class="row text-center">
+          <div class="col-sm-12">
+            <h5>Dia 0</h5>
+          </div>
+          <div class="col-sm-12">
+            <h6>Sabado, 25 de Noviembre 2021</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 d-flex justify-content-center align-items-center">
+        <div class="row text-center">
+          <div class="col-sm-12">
+            <h5>Pedida de Novios</h5>
+          </div>
+          <div class="col-sm-12">
+            <h6>Sabado, 13 de Marzo 2022</h6>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <img
+          [src]="mainImagesVideos.secondarySection[0].path"
+          alt="Full Height Full Width Image"
+          class="full-image"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <img
+          [src]="mainImagesVideos.secondarySection[0].path"
+          alt="Full Height Full Width Image"
+          class="full-image"
+        />
+      </div>
+      <div class="col-sm-6 d-flex justify-content-center align-items-center">
+        <div class="row text-center">
+          <div class="col-sm-12">
+            <h5>La Propuesta</h5>
+          </div>
+          <div class="col-sm-12">
+            <h6>Lunes, 15 de Julio 2024</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 d-flex justify-content-center align-items-center">
+        <div class="row text-center">
+          <div class="col-sm-12">
+            <h5>Boda Civil</h5>
+          </div>
+          <div class="col-sm-12">
+            <h6>Sabado, 15 de Marzo 2025</h6>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <img
+          [src]="mainImagesVideos.secondarySection[0].path"
+          alt="Full Height Full Width Image"
+          class="full-image"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <img
+          [src]="mainImagesVideos.secondarySection[0].path"
+          alt="Full Height Full Width Image"
+          class="full-image"
+        />
+      </div>
+      <div class="col-sm-6 d-flex justify-content-center align-items-center">
+        <div class="row text-center">
+          <div class="col-sm-12">
+            <h5>Boda Religiosa</h5>
+          </div>
+          <div class="col-sm-12">
+            <h6>TBD</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="bg-light">
+  <div class="container py-3">
+    <div class="row text-center">
+      <div class="col-sm-12 my-5">
+        <h2 class="text-primary">¡ALGUNOS DE nuestros momentos INCREIBLES!</h2>
+      </div>
       <div class="col-sm-12">
-        <h2>
-          Somos dos viajeros que se encontraron en el mismo sendero, destinados
-          a caminar juntos hacia lo desconocido
+        <app-gallery [images]="mainImagesVideos.secondarySection"></app-gallery>
+      </div>
+      <div class="col-sm-12 my-5">
+        <h2 class="text-primary">
+          Estamos plenamennte felices de poder compartir esta etapa de nuestra
+          vida y celebrarlo contigo.
         </h2>
+      </div>
+      <div class="col-sm-12 mt-3 mb-5">
+        <button class="btn btn-dark btn-lg" (click)="scrollToDiscoverMore()">
+          Confirma tu asistencia
+        </button>
       </div>
     </div>
   </div>

@@ -2,7 +2,9 @@ import {
   Component,
   HostListener,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -16,11 +18,12 @@ import { Message } from 'primeng/api';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css',
+  styleUrls: ['./header.component.css'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnChanges {
   @ViewChild('formRef') formRef: any;
 
+  @Input() triggerModal: boolean = false;
   @Input() isMain = true;
 
   public selectLandingState$ = this.store.select(
@@ -41,7 +44,7 @@ export class HeaderComponent implements OnInit {
     { label: 'Boda Religiosa', value: 5 },
   ];
 
-  guestCode: string = '';
+  guestCode: string = ''; // Initialize guestCode properly
 
   private unsubscribe$ = new Subject<void>();
 
@@ -73,6 +76,12 @@ export class HeaderComponent implements OnInit {
           this.router.navigate(['soyinvitado']);
         }
       });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['triggerModal'] && changes['triggerModal'].currentValue) {
+      this.showGuestModal();
+    }
   }
 
   ngOnDestroy(): void {
@@ -121,7 +130,9 @@ export class HeaderComponent implements OnInit {
   }
 
   transformToUppercase() {
-    this.guestCode = this.guestCode.toUpperCase();
+    if (this.guestCode) {
+      this.guestCode = this.guestCode.toUpperCase();
+    }
   }
 
   @HostListener('window:scroll', [])
@@ -136,13 +147,13 @@ export class HeaderComponent implements OnInit {
         const navbarHeight = navbar.offsetHeight;
 
         if (targetPosition <= navbarHeight) {
-          navbar.classList.add('bg-light');
+          //navbar.classList.add('bg-light');
         } else {
-          navbar.classList.remove('bg-light');
+          //navbar.classList.remove('bg-light');
         }
       }
     } else {
-      navbar ? navbar.classList.add('bg-light') : null;
+      //navbar ? navbar.classList.add('bg-light') : null;
     }
   }
 }

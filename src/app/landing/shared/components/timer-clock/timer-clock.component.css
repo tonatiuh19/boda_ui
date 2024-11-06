@@ -1,3 +1,18 @@
 .timer-clock {
-  font-size: 0.7rem;
+  font-size: 0.5rem;
+}
+
+.timer-clock-value {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 8px;
+  background-color: white;
+  border: 1px solid white;
+  border-radius: 5px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.animate-change {
+  transform: scale(1.1);
 }

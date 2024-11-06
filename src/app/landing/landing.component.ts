@@ -1,4 +1,10 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { fromLanding } from './shared/store/selectors';
 import { Store } from '@ngrx/store';
 import { LandingActions } from './shared/store/actions';
@@ -11,11 +17,15 @@ import { LandingMediaModel } from './landing,model';
   styleUrl: './landing.component.css',
 })
 export class LandingComponent implements OnInit {
+  @ViewChild('discoverMore') discoverMore!: ElementRef;
+
   public selectMainImagesVideos$ = this.store.select(
     fromLanding.selectMainImagesVideos
   );
   public isloading$ = this.store.select(fromLanding.selecIsloading);
   isMobile: boolean = false;
+
+  triggerModalGuest: boolean = false;
 
   public mainImagesVideos: LandingMediaModel = {} as LandingMediaModel;
 
@@ -55,5 +65,13 @@ export class LandingComponent implements OnInit {
 
   checkScreenSize(): void {
     this.isMobile = window.innerWidth <= 578; // Adjust the breakpoint as needed
+  }
+
+  scrollToDiscoverMore(): void {
+    this.discoverMore.nativeElement.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  openModalGuest(): void {
+    this.triggerModalGuest = true;
   }
 }

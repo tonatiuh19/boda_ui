@@ -11,7 +11,7 @@
 <!-- Modal -->
 <div class="modal" [class.show]="selectedImage" (click)="closeModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
-    <span class="close" (click)="closeModal()">&times;</span>
+    <!--<span class="close" (click)="closeModal()">&times;</span>-->
     <ng-container *ngIf="selectedImage">
       <video
         #videoPlayer
