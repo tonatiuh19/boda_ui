@@ -12,89 +12,113 @@
     <div class="text-white"></div>
   </div>
 </nav>
-<p-dialog
-  header="Header"
-  [(visible)]="isModalGuestVisible"
-  [modal]="true"
-  [position]="'topright'"
-  [style]="{ width: '25rem' }"
+<button
+  #modalGuestButton
+  type="button"
+  class="btn btn-primary hidden-button-modal-guest"
+  data-bs-toggle="modal"
+  data-bs-target="#guestModal"
 >
-  <ng-template pTemplate="header">
-    <div class="inline-flex align-items-center justify-content-center gap-2">
-      <span class="font-bold white-space-nowrap">
-        <strong>Ingresa tu codigo de invitado</strong>
-      </span>
-    </div>
-  </ng-template>
-  <div class="container">
-    <div class="row">
-      <form
-        [formGroup]="formGetGuest"
-        (ngSubmit)="onSubmitGuestForm()"
-        #formRef="ngForm"
-      >
-        <div class="col-sm-12">
-          <div class="form-group">
-            <label for="guestCode">Te hemos enviado un codigo</label>
-            <input
-              type="text"
-              class="form-control"
-              id="guestCode"
-              formControlName="guestCode"
-              placeholder="Ingresalo aqui"
-              [ngClass]="{
-                'is-invalid':
-                  formGetGuest.get('guestCode')?.invalid &&
-                  formGetGuest.get('guestCode')?.touched,
-                'is-valid': formGetGuest.get('guestCode')?.valid
-              }"
-              [(ngModel)]="guestCode"
-              (ngModelChange)="transformToUppercase()"
-            />
+  Launch demo modal
+</button>
+<div
+  class="modal fade"
+  id="guestModal"
+  tabindex="-1"
+  aria-labelledby="guestModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content custom-modal-border">
+      <div class="modal-body bg-dark custom-modal-border">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12 text-center mb-3">
+              <h4 class="text-primary">
+                Ingresa tu codigo de invitado
+                <button
+                  #closeButtonModal
+                  type="button"
+                  class="btn btn-sm btn-outline-primary text-primary float-end"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  X
+                </button>
+              </h4>
+            </div>
           </div>
-          <div class="form-group mt-2">
-            <label for="guestPlace">¿Para qué evento es tu invitación?</label>
-            <select
-              class="form-select"
-              id="guestPlace"
-              formControlName="guestPlace"
-              aria-label="Default select example"
-              [ngClass]="{
-                'is-invalid':
-                  formGetGuest.get('guestPlace')?.invalid &&
-                  formGetGuest.get('guestPlace')?.touched,
-                'is-valid': formGetGuest.get('guestPlace')?.valid
-              }"
+          <div class="row">
+            <form
+              [formGroup]="formGetGuest"
+              (ngSubmit)="onSubmitGuestForm()"
+              #formRef="ngForm"
             >
-              <option selected disabled>Selecciona un evento</option>
-              <option *ngFor="let event of events" [value]="event.value">
-                {{ event.label }}
-              </option>
-            </select>
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="guestCode" class="text-primary"
+                    >Te hemos enviado un codigo</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control custom-input"
+                    id="guestCode"
+                    formControlName="guestCode"
+                    placeholder="Ingresalo aqui"
+                    [ngClass]="{
+                      'is-invalid':
+                        formGetGuest.get('guestCode')?.invalid &&
+                        formGetGuest.get('guestCode')?.touched,
+                      'is-valid': formGetGuest.get('guestCode')?.valid
+                    }"
+                    [(ngModel)]="guestCode"
+                    (ngModelChange)="transformToUppercase()"
+                  />
+                </div>
+                <div class="form-group mt-2">
+                  <label for="guestPlace" class="text-primary"
+                    >¿Para qué evento es tu invitación?</label
+                  >
+                  <select
+                    class="form-select custom-select"
+                    id="guestPlace"
+                    formControlName="guestPlace"
+                    aria-label="Default select example"
+                    [ngClass]="{
+                      'is-invalid':
+                        formGetGuest.get('guestPlace')?.invalid &&
+                        formGetGuest.get('guestPlace')?.touched,
+                      'is-valid': formGetGuest.get('guestPlace')?.valid
+                    }"
+                  >
+                    <option selected disabled>Selecciona un evento</option>
+                    <option *ngFor="let event of events" [value]="event.value">
+                      {{ event.label }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-sm-12 text-center mt-2" *ngIf="isError">
+                <span class="badge text-bg-primary w-100"
+                  >Tu código no es válido o no estás invitado.</span
+                >
+              </div>
+            </form>
+          </div>
+          <div class="row text-center my-3">
+            <div class="col-sm-12">
+              <button
+                type="button"
+                class="btn btn-outline-light w-100"
+                (click)="submitGuestForm()"
+              >
+                Siguiente
+              </button>
+            </div>
           </div>
         </div>
-        <div class="col-sm-12 text-center mt-2" *ngIf="isError">
-          <span class="badge text-bg-danger w-100"
-            >Tu código no es válido o no estás invitado.</span
-          >
-        </div>
-      </form>
+      </div>
     </div>
   </div>
-  <ng-template pTemplate="footer">
-    <p-button
-      label="Cancelar"
-      [text]="true"
-      severity="secondary"
-      (onClick)="isModalGuestVisible = false"
-    />
-
-    <p-button
-      type="button"
-      label="Siguiente"
-      [outlined]="true"
-      severity="secondary"
-      (click)="submitGuestForm()"
-    />
-  </ng-template>
-</p-dialog>
+</div>

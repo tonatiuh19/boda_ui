@@ -1,9 +1,11 @@
 import {
   Component,
+  ElementRef,
   HostListener,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -21,6 +23,10 @@ import { Message } from 'primeng/api';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit, OnChanges {
+  @ViewChild('modalGuestButton')
+  modalGuestButton!: ElementRef<HTMLButtonElement>;
+  @ViewChild('closeButtonModal')
+  closeButtonModal!: ElementRef<HTMLButtonElement>;
   @ViewChild('formRef') formRef: any;
 
   @Input() triggerModal: boolean = false;
@@ -80,7 +86,7 @@ export class HeaderComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['triggerModal'] && changes['triggerModal'].currentValue) {
-      this.showGuestModal();
+      this.openModal();
     }
   }
 
@@ -133,6 +139,14 @@ export class HeaderComponent implements OnInit, OnChanges {
     if (this.guestCode) {
       this.guestCode = this.guestCode.toUpperCase();
     }
+  }
+
+  openModal(): void {
+    this.modalGuestButton.nativeElement.click();
+  }
+
+  closeModal(): void {
+    this.closeButtonModal.nativeElement.click();
   }
 
   @HostListener('window:scroll', [])

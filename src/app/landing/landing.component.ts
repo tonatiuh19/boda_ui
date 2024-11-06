@@ -73,5 +73,8 @@ export class LandingComponent implements OnInit {
 
   openModalGuest(): void {
     this.triggerModalGuest = true;
+    setTimeout(() => {
+      this.triggerModalGuest = false;
+    }, 300); // Adjust the delay as needed
   }
 }
