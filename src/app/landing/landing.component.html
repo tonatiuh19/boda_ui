@@ -10,18 +10,22 @@
         class="col-sm-5 text-center full-height d-flex align-items-center justify-content-center content-container"
       >
         <div class="row text-white">
-          <div class="col-12">
-            <h1 class="animated-title">SAVE the DATE</h1>
+          <div class="col-12 mb-3">
+            <h1 class="animated-title">
+              SAVE <span class="full-cursive">the</span> DATE
+            </h1>
           </div>
           <div class="col-12">
-            <h3 class="animated-title display-3">Felix & Leslie</h3>
+            <h3 class="animated-title display-3 text-primary full-cursive">
+              Felix & Leslie
+            </h3>
           </div>
-          <div class="col-12 my-3">
+          <div class="col-12 mb-3">
             <small class="animated-title display-date">
-              15.03.2025 | Guadalajara, Jal.
+              15.03.2025 | Zapopan, Jal.
             </small>
           </div>
-          <div class="col-12 mt-3">
+          <div class="col-12">
             <button
               class="btn btn-outline-light animated-button"
               (click)="openModalGuest()"
@@ -50,17 +54,18 @@
   <div class="container py-5">
     <div class="row mt-5 text-center">
       <div class="col-sm-12">
-        <h3>¡ESTAMOS muy emocionados DE CELEBRAR JUNTOS !</h3>
+        <h3 class="mb-4">¡ESTAMOS MUY EMOCIONADOS DE CELEBRAR JUNTOS !</h3>
+        <hr class="custom-hr w-75 mx-auto" />
       </div>
     </div>
-    <div class="row mt-3 mb-5">
+    <div class="row mt-3 mb-2">
       <div class="col-sm-12">
-        <div class="card hover-card m-1">
+        <div class="card hover-card bg-light m-1">
           <div class="card-body">
             <div class="container">
               <div class="row">
                 <div class="col-sm-12 text-center">
-                  <h4 class="text-primary">Boda Civil</h4>
+                  <h4 class="text-dark">Boda Civil</h4>
                 </div>
               </div>
               <div class="row mt-1">
@@ -76,20 +81,16 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-sm-12 text-center">
-        <button
-          class="btn btn-outline-primary btn-lg"
-          (click)="openModalGuest()"
-        >
-          Soy Invitad&#64;
-        </button>
-      </div>
-    </div>
   </div>
 </section>
 <section class="bg-light">
   <div class="container py-3">
+    <div class="row mb-5 text-center">
+      <div class="col-sm-12 text-primary">
+        <h3 class="mb-4">LA PROPUESTA</h3>
+        <hr class="custom-hr small-width mx-auto" />
+      </div>
+    </div>
     <div class="row">
       <div class="col-sm-12">
         <app-gallery-carousel
@@ -100,14 +101,15 @@
   </div>
 </section>
 <section id="target-element">
-  <div class="container-fluid bg-dark text-white py-5">
+  <div class="container-fluid bg-dark text-white pt-5">
     <div class="row text-center">
       <div class="col-sm-12 mb-5">
-        <h2>La mejor historia de amor</h2>
+        <h2>NUESTRA GRAN HISTORIA DE AMOR</h2>
+        <hr class="text-white w-50 mx-auto" />
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-sm-6 no-padding">
         <img
           [src]="mainImagesVideos.secondarySection[0].path"
           alt="Full Height Full Width Image"
@@ -136,7 +138,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-6 no-padding">
         <img
           [src]="mainImagesVideos.secondarySection[0].path"
           alt="Full Height Full Width Image"
@@ -145,7 +147,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-sm-6 no-padding">
         <img
           [src]="mainImagesVideos.secondarySection[0].path"
           alt="Full Height Full Width Image"
@@ -174,7 +176,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-6 no-padding">
         <img
           [src]="mainImagesVideos.secondarySection[0].path"
           alt="Full Height Full Width Image"
@@ -183,7 +185,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-sm-6 no-padding">
         <img
           [src]="mainImagesVideos.secondarySection[0].path"
           alt="Full Height Full Width Image"
@@ -207,7 +209,8 @@
   <div class="container py-3">
     <div class="row text-center">
       <div class="col-sm-12 my-5">
-        <h2 class="text-primary">¡ALGUNOS DE nuestros momentos INCREIBLES!</h2>
+        <h2 class="text-primary">¡ALGUNOS DE NUESTROS MOMENTOS INCREIBLES!</h2>
+        <hr class="custom-hr w-75 mx-auto" />
       </div>
       <div class="col-sm-12">
         <app-gallery [images]="mainImagesVideos.secondarySection"></app-gallery>

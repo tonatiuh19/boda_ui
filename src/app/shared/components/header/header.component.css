@@ -3,14 +3,14 @@
 }
 
 .custom-modal-border {
-  border: 2px solid #d4af37; /* Gold color for a vintage look */
+  border: 2px solid #ab8d66; /* Gold color for a vintage look */
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .custom-input {
-  border: 2px solid #d4af37; /* Gold color for a vintage look */
-  color: #d4af37;
+  border: 2px solid #ab8d66; /* Gold color for a vintage look */
+  color: #ab8d66;
   border-radius: 5px;
   padding: 10px;
   background-color: #101b0d;
@@ -18,23 +18,23 @@
 }
 
 .custom-input::placeholder {
-  color: #d4af37; /* Gold color for the placeholder */
+  color: #ab8d66; /* Gold color for the placeholder */
   opacity: 1; /* Ensure the placeholder color is fully opaque */
 }
 
 .custom-input:focus {
-  border-color: #d4af37;
+  border-color: #ab8d66;
   box-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
 }
 
 .custom-input:blur {
   background-color: #101b0d; /* Revert background color when blurred */
-  color: #d4af37; /* Revert text color when blurred */
+  color: #ab8d66; /* Revert text color when blurred */
 }
 
 .custom-select {
-  border: 2px solid #d4af37; /* Gold color for a vintage look */
-  color: #d4af37;
+  border: 2px solid #ab8d66; /* Gold color for a vintage look */
+  color: #ab8d66;
   border-radius: 5px;
   padding: 10px;
   background-color: #101b0d;
@@ -42,14 +42,14 @@
   -webkit-appearance: none; /* Remove default arrow in WebKit browsers */
   -moz-appearance: none; /* Remove default arrow in Firefox */
   appearance: none; /* Remove default arrow in other browsers */
-  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23d4af37" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path d="M7.247 11.14 2.451 5.658c-.566-.683-.106-1.658.753-1.658h9.592c.86 0 1.32.975.753 1.658l-4.796 5.482a1 1 0 0 1-1.506 0z"/></svg>'); /* Custom arrow icon */
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23AB8D66" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path d="M7.247 11.14 2.451 5.658c-.566-.683-.106-1.658.753-1.658h9.592c.86 0 1.32.975.753 1.658l-4.796 5.482a1 1 0 0 1-1.506 0z"/></svg>'); /* Custom arrow icon */
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 16px 16px;
 }
 
 .custom-select:focus {
-  border-color: #d4af37;
+  border-color: #ab8d66;
   box-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
 }
 
@@ -67,5 +67,5 @@
 }
 
 .is-valid {
-  border-color: #d4af37 !important; /* Green color for valid input */
+  border-color: #ab8d66 !important; /* Green color for valid input */
 }
