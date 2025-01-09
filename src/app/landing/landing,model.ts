@@ -21,6 +21,8 @@ export interface GuestModel {
   guest_note: string;
   photo: string;
   title: string;
+  date_confirmed: string;
+  submited: boolean;
   guest_extras: GuestExtra[];
   confirmation: number;
   event_details: EventDetailsModel;

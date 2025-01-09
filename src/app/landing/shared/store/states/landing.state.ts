@@ -15,6 +15,8 @@ export const initialLandingState: LandingState = {
     guest_extras: [],
     photo: '',
     title: '',
+    date_confirmed: '',
+    submited: false,
     confirmation: 0,
     event_details: {
       id_event: 0,

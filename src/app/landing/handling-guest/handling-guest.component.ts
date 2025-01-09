@@ -64,6 +64,8 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
 
   isConfirmed = false;
 
+  isConfirmation = false;
+
   isTitle = false;
 
   accomodationList: EventAccommodationsModel[] = [];
@@ -97,7 +99,8 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
           ? `${this.guestInfo.event_details.address_line1}, ${this.guestInfo.event_details.address_line2}, ${this.guestInfo.event_details.city}, ${this.guestInfo.event_details.state}, ${this.guestInfo.event_details.postal_code}, ${this.guestInfo.event_details.country}`
           : '';
         this.isTitle = this.guestInfo.title !== '';
-        if (this.guestInfo.confirmation === 1) {
+        this.isConfirmation = this.guestInfo.confirmation === 1;
+        if (this.guestInfo.submited) {
           this.isConfirmed = true;
           this.accomodationList = this.guestInfo.accommodations ?? [];
         } else {
