@@ -36,16 +36,10 @@
         </div>
       </div>
       <div class="col-sm-7 bg-main full-height">
-        <ng-container *ngIf="!isMobile; else mobileView">
-          <video class="video-fluid" autoplay muted loop>
-            <source
-              [src]="mainImagesVideos.mainSection[0].path"
-              type="video/mp4"
-            />
-            Your browser does not support the video tag
-          </video>
-        </ng-container>
-        <ng-template #mobileView> </ng-template>
+        <img
+          src="https://garbrix.com/boda/assets/images/main.png"
+          style="width: 100%; height: 100%; object-fit: cover"
+        />
       </div>
     </div>
   </div>
@@ -60,7 +54,7 @@
     </div>
     <div class="row mt-3 mb-2">
       <div class="col-sm-12">
-        <div class="card hover-card bg-light m-1">
+        <div class="card bg-light m-1">
           <div class="card-body">
             <div class="container">
               <div class="row">
@@ -117,24 +111,115 @@
         />
       </div>
       <div class="col-sm-6 d-flex justify-content-center align-items-center">
-        <div class="row text-center">
-          <div class="col-sm-12">
-            <h5>Dia 0</h5>
+        <div class="container">
+          <div class="row text-center">
+            <div class="col-sm-12">
+              <h3 class="text-primary">EL DIA QUE NOS CONOCIMOS</h3>
+            </div>
+            <div class="col-sm-12">
+              <h6><strong>Sabado, 25 de Noviembre 2021</strong></h6>
+            </div>
           </div>
-          <div class="col-sm-12">
-            <h6>Sabado, 25 de Noviembre 2021</h6>
+          <div class="row text-center mt-3">
+            <div class="col-sm-12">
+              <span class="our-story-font">
+                Todo comenzó en la boda de nuestros amigos Bety y Marco. Nos
+                sentaron en la mesa de los solteros y, de repente, mis ojos se
+                encontraron con los de Félix. Comenzamos a hablar, primero entre
+                risas, luego con una conexión que no pude ignorar. En cuestión
+                de minutos, estábamos bailando juntos, como si el mundo a
+                nuestro alrededor desapareciera. Intercambiamos números y, como
+                si todo fuera un destino, quedamos en vernos en los días que
+                seguirían.
+              </span>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-6 d-flex justify-content-center align-items-center">
-        <div class="row text-center">
-          <div class="col-sm-12">
-            <h5>Pedida de Novios</h5>
+        <div class="container">
+          <div class="row text-center">
+            <div class="col-sm-12">
+              <h3 class="text-primary">SOMOS NOVIOS</h3>
+            </div>
+            <div class="col-sm-12">
+              <h6><strong>Sabado, 13 de Marzo 2022</strong></h6>
+            </div>
           </div>
-          <div class="col-sm-12">
-            <h6>Sabado, 13 de Marzo 2022</h6>
+          <div class="row text-center mt-3">
+            <div class="col-sm-12">
+              <span class="our-story-font">
+                Quedamos en salir, ya que uno de los mejores amigos de Félix
+                estaba en la ciudad y el plan era volar drones en Bugambilias.
+                Mientras estábamos en eso, Félix sacó una cartulina y, nervioso,
+                me preguntó si quería ser su novia, acompañado de unas flores.
+                Sin dudarlo, respondí con un rotundo '¡sí!
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 no-padding">
+        <img
+          [src]="mainImagesVideos.secondarySection[0].path"
+          alt="Full Height Full Width Image"
+          class="full-image"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 no-padding">
+        <img
+          [src]="mainImagesVideos.secondarySection[0].path"
+          alt="Full Height Full Width Image"
+          class="full-image"
+        />
+      </div>
+      <div class="col-sm-6 d-flex justify-content-center align-items-center">
+        <div class="container">
+          <div class="row text-center">
+            <div class="col-sm-12">
+              <h5 class="text-primary">LA PROPUESTA</h5>
+            </div>
+            <div class="col-sm-12">
+              <h6><strong>Lunes, 15 de Julio 2024</strong></h6>
+            </div>
+          </div>
+          <div class="row text-center mt-3">
+            <div class="col-sm-12">
+              <span class="our-story-font">
+                En nuestro viaje a Europa, llegamos a Florencia. Habíamos
+                decidido tomar un tour por el Ponte Vecchio. Al subirnos a la
+                balsa y comenzar el recorrido, la guía nos sugirió tomarnos
+                algunas fotos, y fue en ese momento cuando Félix se agachó, sacó
+                un anillo y me preguntó, '¿Te quieres casar conmigo?' — ¡Claro
+                que sí!
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 d-flex justify-content-center align-items-center">
+        <div class="container">
+          <div class="row text-center">
+            <div class="col-sm-12">
+              <h5 class="text-primary">NUESTRA BODA CIVIL</h5>
+            </div>
+            <div class="col-sm-12">
+              <h6><strong>Sabado, 15 de Marzo 2025</strong></h6>
+            </div>
+          </div>
+          <div class="row text-center mt-3">
+            <div class="col-sm-12">
+              <span class="our-story-font">
+                Felices de unir nuestras vidas, rodeados del amor y el apoyo de
+                nuestros familiares y amigos.
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -157,45 +242,7 @@
       <div class="col-sm-6 d-flex justify-content-center align-items-center">
         <div class="row text-center">
           <div class="col-sm-12">
-            <h5>La Propuesta</h5>
-          </div>
-          <div class="col-sm-12">
-            <h6>Lunes, 15 de Julio 2024</h6>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6 d-flex justify-content-center align-items-center">
-        <div class="row text-center">
-          <div class="col-sm-12">
-            <h5>Boda Civil</h5>
-          </div>
-          <div class="col-sm-12">
-            <h6>Sabado, 15 de Marzo 2025</h6>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 no-padding">
-        <img
-          [src]="mainImagesVideos.secondarySection[0].path"
-          alt="Full Height Full Width Image"
-          class="full-image"
-        />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6 no-padding">
-        <img
-          [src]="mainImagesVideos.secondarySection[0].path"
-          alt="Full Height Full Width Image"
-          class="full-image"
-        />
-      </div>
-      <div class="col-sm-6 d-flex justify-content-center align-items-center">
-        <div class="row text-center">
-          <div class="col-sm-12">
-            <h5>Boda Religiosa</h5>
+            <h5 class="text-primary">Boda Religiosa</h5>
           </div>
           <div class="col-sm-12">
             <h6>TBD</h6>

@@ -5,7 +5,7 @@ const actor = '[Landing]';
 
 export const getGuest = createAction(
   `${actor} Get Guest`,
-  props<{ guest_code: string; event_type: number }>()
+  props<{ guest_code: string }>()
 );
 
 export const getGuestSuccess = createAction(
@@ -36,26 +36,11 @@ export const updateGuestInformation = createAction(
 
 export const updateGuestInformationSuccess = createAction(
   `${actor} Update Guest Information Success`,
-  props<{ isConfirmed: number }>()
+  props<{ guest: GuestModel }>()
 );
 
 export const updateGuestInformationFailure = createAction(
   `${actor} Update Guest Information Failure`,
-  props<{ error: string }>()
-);
-
-export const getEventAccommodations = createAction(
-  `${actor} Get Event Accommodations`,
-  props<{ id_event: number }>()
-);
-
-export const getEventAccommodationsSuccess = createAction(
-  `${actor} Get Event Accommodations Success`,
-  props<{ accommodations: EventAccommodationsModel[] }>()
-);
-
-export const getEventAccommodationsFailure = createAction(
-  `${actor} Get Event Accommodations Failure`,
   props<{ error: string }>()
 );
 

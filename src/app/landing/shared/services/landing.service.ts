@@ -14,14 +14,10 @@ export class LandingService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public getGuestByCodeAndEventType(
-    guest_code: string,
-    event_type: number
-  ): Observable<any> {
+  public getGuestByCodeAndEventType(guest_code: string): Observable<any> {
     return this.httpClient
       .post(this.GET_GUEST_BY_CODE_AND_EVENT_TYPE, {
         guest_code,
-        event_type,
       })
       .pipe(
         map((response) => {
@@ -31,7 +27,6 @@ export class LandingService {
   }
 
   public updateGuestDetails(data: any): Observable<any> {
-    console.log('fromService', data);
     //return of(1);
     return this.httpClient.post(this.UPDATE_GUEST_DETAILS, data).pipe(
       map((response) => {

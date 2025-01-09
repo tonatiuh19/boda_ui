@@ -49,7 +49,6 @@ export class LandingComponent implements OnInit {
         if (mainImagesVideos) {
           this.mainImagesVideos = mainImagesVideos;
         }
-        console.log(this.mainImagesVideos);
       });
   }
 

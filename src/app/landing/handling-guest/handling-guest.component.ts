@@ -36,8 +36,6 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
 
   public isloading$ = this.store.select(fromLanding.selecIsloading);
 
-  public isMessage$ = this.store.select(fromLanding.selectIsMessage);
-
   formGroupExtraGuest!: FormGroup;
   stateOptions: any[] = [
     { label: 'Si', value: 'yes' },
@@ -62,7 +60,11 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
   loading = false;
   message: number = 0;
 
+  public idUser!: number;
+
   isConfirmed = false;
+
+  isTitle = false;
 
   accomodationList: EventAccommodationsModel[] = [];
   accomodationPanelVisible: boolean = false;
@@ -75,15 +77,13 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.formGroupExtraGuest = new FormGroup({
-      valueExtra: new FormControl('no', Validators.required),
       valueConfirmation: new FormControl('yes', Validators.required),
-      guestNumberExtras: new FormControl(0, Validators.required),
       phone: new FormControl('', [
         Validators.required,
         Validators.pattern(/^\d{10}$/),
       ]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      video: new FormControl(null, Validators.required),
+      video: new FormControl(null),
     });
   }
 
@@ -91,136 +91,99 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
     this.selectLandingState$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((state) => {
-        console.log(state);
+        this.idUser = state.guest?.id_guest ?? 0;
         this.guestInfo = state.guest ?? ({} as GuestModel);
-        this.addressString = `${this.guestInfo.event_details.address_line1}, ${this.guestInfo.event_details.address_line2}, ${this.guestInfo.event_details.city}, ${this.guestInfo.event_details.state}, ${this.guestInfo.event_details.postal_code}, ${this.guestInfo.event_details.country}`;
-        this.updateNumberOfExtras();
+        this.addressString = this.guestInfo.event_details.address_line1
+          ? `${this.guestInfo.event_details.address_line1}, ${this.guestInfo.event_details.address_line2}, ${this.guestInfo.event_details.city}, ${this.guestInfo.event_details.state}, ${this.guestInfo.event_details.postal_code}, ${this.guestInfo.event_details.country}`
+          : '';
+        this.isTitle = this.guestInfo.title !== '';
         if (this.guestInfo.confirmation === 1) {
           this.isConfirmed = true;
-          this.accomodationList = state.accommodations ?? [];
+          this.accomodationList = this.guestInfo.accommodations ?? [];
         } else {
           this.isConfirmed = false;
         }
-      });
 
-    if (this.isConfirmed) {
-      this.store.dispatch(
-        LandingActions.getEventAccommodations({
-          id_event: this.guestInfo.event_details.id_event,
-        })
-      );
-    }
-
-    this.isMessage$
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((isMessage) => {
-        if (isMessage === 1) {
-          this.store.dispatch(
-            LandingActions.updateGuestInformation({
-              data: {
-                ...this.formGroupExtraGuest.value,
-                id_guest: this.guestInfo.id_guest,
-              },
-            })
-          );
-          this.onCancel();
-          //this.formGroupExtraGuest.reset();
-        }
-      });
-
-    this.formGroupExtraGuest.valueChanges
-      .pipe(distinctUntilChanged(), takeUntil(this.unsubscribe$))
-      .subscribe((value) => {
-        if (value.valueExtra === 'yes') {
+        if (this.guestInfo.guest_extras.length > 0) {
           this.isExtrasGuestVisible = true;
-          this.numberOfExtras.forEach((extra, index) => {
-            this.formGroupExtraGuest
-              .get(`extraGuest${index}`)
-              ?.setValidators(Validators.required);
-            this.formGroupExtraGuest
-              .get(`extraGuest${index}`)
-              ?.updateValueAndValidity({ emitEvent: false });
-          });
         } else {
           this.isExtrasGuestVisible = false;
-          this.numberOfExtras.forEach((extra, index) => {
-            this.formGroupExtraGuest
-              .get(`extraGuest${index}`)
-              ?.clearValidators();
-            this.formGroupExtraGuest
-              .get(`extraGuest${index}`)
-              ?.updateValueAndValidity({ emitEvent: false });
-          });
-        }
-
-        if (value.valueConfirmation === 'yes') {
-          this.formGroupExtraGuest
-            .get('valueExtra')
-            ?.enable({ emitEvent: false });
-        } else {
-          this.formGroupExtraGuest
-            .get('valueExtra')
-            ?.disable({ emitEvent: false });
         }
       });
+
+    this.guestInfo.guest_extras.forEach((extra) => {
+      this.formGroupExtraGuest.addControl(
+        'extra_' + extra.id_guest_extra,
+        this.fb.control(
+          extra.confirmation === 0 ? 'yes' : 'no',
+          Validators.required
+        )
+      );
+    });
+
+    if (this.isTitle) {
+      this.formGroupExtraGuest.addControl(
+        'extra_guest_' + this.guestInfo.id_guest,
+        this.fb.control(
+          this.guestInfo.confirmation === 0 ? 'yes' : 'no',
+          Validators.required
+        )
+      );
+    }
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(LandingActions.cleanGuest());
+    //this.store.dispatch(LandingActions.cleanGuest());
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-  }
-
-  updateNumberOfExtras(): void {
-    if (this.guestInfo.guest_extras) {
-      this.numberOfExtras = Array.from(
-        { length: this.guestInfo.guest_extras },
-        (_, i) => ({
-          name: `Extra ${i + 1}`,
-          value: i + 1,
-        })
-      );
-
-      // Add form controls for each extra guest without validators initially
-      this.numberOfExtras.forEach((extra, index) => {
-        this.formGroupExtraGuest.addControl(
-          `extraGuest${index}`,
-          new FormControl('')
-        );
-        this.formGroupExtraGuest.addControl(
-          `extraGuestCheckbox${index}`,
-          new FormControl(true)
-        );
-      });
-    } else {
-      this.numberOfExtras = [];
-    }
-  }
-
-  onCheckboxChange(index: number): void {
-    const checkboxControl = this.formGroupExtraGuest.get(
-      `extraGuestCheckbox${index}`
-    );
-    const inputControl = this.formGroupExtraGuest.get(`extraGuest${index}`);
-
-    if (checkboxControl?.value) {
-      inputControl?.setValidators(Validators.required);
-    } else {
-      inputControl?.clearValidators();
-    }
-    inputControl?.updateValueAndValidity({ emitEvent: false });
   }
 
   onSubmit(): void {
     if (this.formGroupExtraGuest.valid) {
       // Handle form submission
       this.videoUploadComponent.uploadVideo();
-      console.log(this.formGroupExtraGuest.value);
+      if (!this.isTitle) {
+        this.store.dispatch(
+          LandingActions.updateGuestInformation({
+            data: {
+              ...this.formGroupExtraGuest.value,
+              id_guest: this.guestInfo.id_guest,
+            },
+          })
+        );
+      } else {
+        const {
+          valueConfirmation,
+          ['extra_guest_' + this.guestInfo.id_guest]: _,
+          ...formValueWithoutConfirmation
+        } = this.formGroupExtraGuest.value;
+        this.store.dispatch(
+          LandingActions.updateGuestInformation({
+            data: {
+              ...formValueWithoutConfirmation,
+              valueConfirmation: this.extractExtraGuestIds(
+                this.formGroupExtraGuest.value
+              ).value,
+              id_guest: this.guestInfo.id_guest,
+            },
+          })
+        );
+      }
     } else {
-      // Handle form errors
-      console.log('Form is invalid');
       this.formGroupExtraGuest.markAllAsTouched();
     }
+  }
+
+  extractExtraGuestIds(value: { [key: string]: any }): {
+    id: number;
+    value: any;
+  } {
+    return Object.keys(value)
+      .filter((key) => key.startsWith('extra_guest_'))
+      .map((key) => ({
+        id: parseInt(key.split('_').pop() || '0', 10),
+        value: value[key],
+      }))[0];
   }
 
   onCancel(): void {
@@ -243,12 +206,6 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
 
   onMessageChange(message: number) {
     this.message = message;
-
-    this.store.dispatch(
-      LandingActions.updateMessageFromVideo({
-        isMessage: this.message,
-      })
-    );
   }
 
   onAccomodationPanelToggle() {

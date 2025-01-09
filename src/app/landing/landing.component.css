@@ -10,6 +10,7 @@
   height: 100vh; /* Full height of the viewport */
   position: relative;
   overflow: hidden;
+  padding-right: 0;
 }
 
 .video-fluid {
@@ -112,4 +113,8 @@
 
 .small-width {
   width: 15% !important;
+}
+
+.our-story-font {
+  font-size: 1.2rem;
 }

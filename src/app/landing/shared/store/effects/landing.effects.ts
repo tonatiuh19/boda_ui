@@ -13,19 +13,17 @@ export class LandingEffects {
   paying$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(LandingActions.getGuest),
-      switchMap(({ guest_code, event_type }) => {
-        return this.landingService
-          .getGuestByCodeAndEventType(guest_code, event_type)
-          .pipe(
-            map((response: GuestModel) => {
-              return LandingActions.getGuestSuccess({
-                guest: response,
-              });
-            }),
-            catchError((error) => {
-              return of(LandingActions.getGuestFailure({ error: error }));
-            })
-          );
+      switchMap(({ guest_code }) => {
+        return this.landingService.getGuestByCodeAndEventType(guest_code).pipe(
+          map((response: GuestModel) => {
+            return LandingActions.getGuestSuccess({
+              guest: response,
+            });
+          }),
+          catchError((error) => {
+            return of(LandingActions.getGuestFailure({ error: error }));
+          })
+        );
       })
     );
   });
@@ -37,38 +35,11 @@ export class LandingEffects {
         return this.landingService.updateGuestDetails(data).pipe(
           map((response) => {
             return LandingActions.updateGuestInformationSuccess({
-              isConfirmed: response,
+              guest: response,
             });
           }),
           catchError((error) => {
             return of(LandingActions.updateGuestInformationFailure({ error }));
-          })
-        );
-      })
-    );
-  });
-
-  updateGuestInformationSuccess$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(LandingActions.updateGuestInformationSuccess),
-      map(() => {
-        return LandingActions.cleanGuest();
-      })
-    );
-  });
-
-  getEventAccommodations$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(LandingActions.getEventAccommodations),
-      switchMap(({ id_event }) => {
-        return this.landingService.getEventAccommodations(id_event).pipe(
-          map((response) => {
-            return LandingActions.getEventAccommodationsSuccess({
-              accommodations: response,
-            });
-          }),
-          catchError((error) => {
-            return of(LandingActions.getEventAccommodationsFailure({ error }));
           })
         );
       })

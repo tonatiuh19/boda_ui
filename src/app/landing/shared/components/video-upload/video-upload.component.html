@@ -3,8 +3,10 @@
     <div class="form-group">
       <div class="mb-3">
         <label for="video" class="form-label"
-          >Ingresa un video donde nos cuentes un mensaje especial, maximo 30
-          segundos</label
+          ><strong
+            >Ingresa un video donde nos cuentes un mensaje especial, maximo 30
+            segundos (opcional pero sugerido)</strong
+          ></label
         >
         <input
           class="form-control"
@@ -14,12 +16,6 @@
           (change)="onFileChange($event)"
           formControlName="video"
           accept="video/*"
-          [ngClass]="{
-            'is-invalid':
-              uploadForm.get('video')?.invalid &&
-              uploadForm.get('video')?.touched,
-            'is-valid': uploadForm.get('video')?.valid
-          }"
         />
       </div>
       <span

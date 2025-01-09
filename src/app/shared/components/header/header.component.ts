@@ -61,7 +61,6 @@ export class HeaderComponent implements OnInit, OnChanges {
   ) {
     this.formGetGuest = this.fb.group({
       guestCode: ['', Validators.required],
-      guestPlace: ['', Validators.required],
     });
   }
 
@@ -69,13 +68,13 @@ export class HeaderComponent implements OnInit, OnChanges {
     this.selectLandingState$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((state) => {
-        console.log(state);
-        if (!state.guest || Object.keys(state.guest).length === 0) {
+        if (state.guest.id_guest === 0) {
           if (state.isValidated) {
             this.isError = true;
           }
           this.formGetGuest.reset();
         } else {
+          this.closeModal();
           this.isError = false;
           this.isModalGuestVisible = false;
           this.formGetGuest.reset();
@@ -102,17 +101,13 @@ export class HeaderComponent implements OnInit, OnChanges {
   onSubmitGuestForm(): void {
     if (this.formGetGuest.valid) {
       // Handle form submission
-      console.log(this.formGetGuest.value);
       this.store.dispatch(
         LandingActions.getGuest({
           guest_code: this.formGetGuest.value.guestCode,
-          event_type: this.formGetGuest.value.guestPlace,
         })
       );
     } else {
       this.formGetGuest.markAllAsTouched();
-      // Handle form errors
-      console.log('Form is invalid');
     }
   }
 

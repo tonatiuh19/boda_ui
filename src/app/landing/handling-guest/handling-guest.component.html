@@ -17,7 +17,7 @@
           </div>
           <div class="col-sm-12 mt-3">
             <img
-              src="https://garbrix.com/regalame/assets/images/creator.png"
+              [src]="guestInfo.photo"
               alt="confirmed"
               class="img-fluid"
               width="200"
@@ -28,8 +28,11 @@
           <div class="col-sm-12">
             <h5>{{ guestInfo.event_details.label }}</h5>
           </div>
-          <div class="col-sm-12">
-            <h1>{{ guestInfo.full_name }}</h1>
+          <div *ngIf="!isConfirmed" class="col-sm-12">
+            <h1 *ngIf="!isTitle">
+              {{ getProcessedText(guestInfo.full_name) }}
+            </h1>
+            <h1 *ngIf="isTitle">{{ getProcessedText(guestInfo.title) }}</h1>
           </div>
           <div class="col-sm-12">
             <span
@@ -40,7 +43,7 @@
             <button
               class="btn btn-sm m-1"
               [ngClass]="{
-                'btn-dark': isConfirmed,
+                'btn-primary': isConfirmed,
                 'btn-outline-dark': !isConfirmed
               }"
               (click)="onLocationLink()"
@@ -50,7 +53,7 @@
             </button>
 
             <button
-              class="btn btn-sm btn-dark m-1"
+              class="btn btn-sm btn-primary m-1"
               (click)="onAccomodationPanelToggle()"
               *ngIf="isConfirmed"
             >
@@ -62,7 +65,7 @@
             <small>{{ getProcessedText(addressString) }}</small>
           </div>
         </div>
-        <div class="row mt-3">
+        <div class="row mt-3" *ngIf="isConfirmed">
           <div class="col-sm-12 text-center">
             <button class="btn btn-primary">
               <fa-icon [icon]="faGifts"></fa-icon> Aqui puedes regalar algo
@@ -70,29 +73,25 @@
             </button>
           </div>
         </div>
-        <div class="row text-center mt-5">
-          <div class="col-sm-12">
-            <button class="btn btn-outline-danger btn-sm" (click)="onCancel()">
-              <fa-icon [icon]="faArrowLeft"></fa-icon> Volver
-            </button>
+        <div *ngIf="!isTitle" class="col-sm-12 text-center">
+          <div class="mt-5" *ngIf="!isConfirmed">
+            <h5>¿Confirmas tu asistencia?</h5>
+            <form [formGroup]="formGroupExtraGuest">
+              <p-selectButton
+                [options]="stateOptions"
+                formControlName="valueConfirmation"
+                optionLabel="label"
+                optionValue="value"
+              />
+            </form>
           </div>
-        </div>
-        <div class="col-sm-12 text-center mt-5" *ngIf="!isConfirmed">
-          <h5>¿Confirmas tu asistencia?</h5>
-          <form [formGroup]="formGroupExtraGuest">
-            <p-selectButton
-              [options]="stateOptions"
-              formControlName="valueConfirmation"
-              optionLabel="label"
-              optionValue="value"
-            />
-          </form>
         </div>
         <div class="col-sm-12 text-center mt-5" *ngIf="!isConfirmed">
           <form [formGroup]="formGroupExtraGuest">
             <div class="form-group">
               <input
                 type="email"
+                name="email"
                 class="form-control mt-2"
                 placeholder="Escribe tu correo electrónico"
                 formControlName="email"
@@ -106,9 +105,10 @@
                 "
               />
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
               <input
                 type="tel"
+                name="phone"
                 class="form-control mt-2"
                 placeholder="Escribe tu número de teléfono"
                 formControlName="phone"
@@ -126,93 +126,216 @@
               [uploadForm]="formGroupExtraGuest"
               videoControlName="video"
               [loading]="loading"
+              [idUser]="idUser"
               (loadingChange)="onLoadingChange($event)"
               (messageChange)="onMessageChange($event)"
             ></app-video-upload>
           </form>
         </div>
-        <div class="col-sm-12 text-center mt-5" *ngIf="!isConfirmed">
+        <div *ngIf="isExtrasGuestVisible" class="col-sm-12 text-center mt-5">
           <h6>
-            Tu invitación incluye a {{ guestInfo.guest_extras }} acompañante(s).
-            ¿Confirmas su asistencia?
+            <strong *ngIf="!isConfirmed"
+              >Tu invitación incluye a
+              {{
+                isTitle
+                  ? guestInfo.guest_extras.length + 1
+                  : guestInfo.guest_extras.length
+              }}
+              acompañante(s). ¿Confirmas su asistencia?</strong
+            >
+            <strong *ngIf="isConfirmed"
+              >Tu invitación incluye a
+              {{
+                isTitle
+                  ? guestInfo.guest_extras.length + 1
+                  : guestInfo.guest_extras.length
+              }}:</strong
+            >
           </h6>
-          <form [formGroup]="formGroupExtraGuest">
-            <p-selectButton
-              [options]="stateOptions"
-              formControlName="valueExtra"
-              optionLabel="label"
-              optionValue="value"
-            />
+        </div>
+        <div
+          *ngIf="isExtrasGuestVisible"
+          class="col-sm-12 text-center mt-3 mb-5"
+        >
+          <form [formGroup]="formGroupExtraGuest" class="container">
+            <div *ngIf="isTitle" class="row">
+              <div class="col-sm-12">
+                <div class="row">
+                  <div [class]="!isConfirmed ? 'col-sm-6' : 'col-sm-12'">
+                    <label *ngIf="!isConfirmed" class="form-check-label">
+                      {{ getProcessedText(guestInfo.full_name) }}
+                    </label>
+                    <label
+                      *ngIf="isConfirmed && guestInfo.confirmation === 1"
+                      class="form-check-label"
+                      [for]="'extra-' + guestInfo.id_guest"
+                    >
+                      {{ getProcessedText(guestInfo.full_name) }}
+                    </label>
+                  </div>
+                  <div class="col-sm-6" *ngIf="!isConfirmed">
+                    <button
+                      class="btn m-1"
+                      [ngClass]="{
+                        'btn-primary':
+                          formGroupExtraGuest.get(
+                            'extra_guest_' + guestInfo.id_guest
+                          )?.value === 'yes',
+                        'btn-outline-primary':
+                          formGroupExtraGuest.get(
+                            'extra_guest_' + guestInfo.id_guest
+                          )?.value !== 'yes'
+                      }"
+                      (click)="
+                        formGroupExtraGuest
+                          .get('extra_guest_' + guestInfo.id_guest)
+                          ?.setValue('yes')
+                      "
+                      [style.boxShadow]="
+                        formGroupExtraGuest.get(
+                          'extra_guest_' + guestInfo.id_guest
+                        )?.value === 'yes'
+                          ? '0 0 10px rgba(0, 0, 0, 0.5)'
+                          : 'none'
+                      "
+                    >
+                      Sí
+                    </button>
+                    <button
+                      class="btn"
+                      [ngClass]="{
+                        'btn-dark':
+                          formGroupExtraGuest.get(
+                            'extra_guest_' + guestInfo.id_guest
+                          )?.value === 'no',
+                        'btn-outline-dark':
+                          formGroupExtraGuest.get(
+                            'extra_guest_' + guestInfo.id_guest
+                          )?.value !== 'no'
+                      }"
+                      (click)="
+                        formGroupExtraGuest
+                          .get('extra_guest_' + guestInfo.id_guest)
+                          ?.setValue('no')
+                      "
+                      [style.boxShadow]="
+                        formGroupExtraGuest.get(
+                          'extra_guest_' + guestInfo.id_guest
+                        )?.value === 'no'
+                          ? '0 0 10px rgba(0, 0, 0, 0.5)'
+                          : 'none'
+                      "
+                    >
+                      No
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngFor="let extra of guestInfo.guest_extras">
+              <div class="col-sm-12">
+                <div class="row">
+                  <div [class]="!isConfirmed ? 'col-sm-6' : 'col-sm-12'">
+                    <label
+                      *ngIf="!isConfirmed"
+                      class="form-check-label"
+                      [for]="'extra-' + extra.id_guest_extra"
+                    >
+                      {{ getProcessedText(extra.full_name) }}
+                    </label>
+                    <label
+                      *ngIf="isConfirmed && extra.confirmation === 1"
+                      class="form-check-label"
+                      [for]="'extra-' + extra.id_guest_extra"
+                    >
+                      {{ getProcessedText(extra.full_name) }}
+                    </label>
+                  </div>
+                  <div class="col-sm-6" *ngIf="!isConfirmed">
+                    <button
+                      class="btn m-1"
+                      [ngClass]="{
+                        'btn-primary':
+                          formGroupExtraGuest.get(
+                            'extra_' + extra.id_guest_extra
+                          )?.value === 'yes',
+                        'btn-outline-primary':
+                          formGroupExtraGuest.get(
+                            'extra_' + extra.id_guest_extra
+                          )?.value !== 'yes'
+                      }"
+                      (click)="
+                        formGroupExtraGuest
+                          .get('extra_' + extra.id_guest_extra)
+                          ?.setValue('yes')
+                      "
+                      [style.boxShadow]="
+                        formGroupExtraGuest.get('extra_' + extra.id_guest_extra)
+                          ?.value === 'yes'
+                          ? '0 0 10px rgba(0, 0, 0, 0.5)'
+                          : 'none'
+                      "
+                    >
+                      Sí
+                    </button>
+                    <button
+                      class="btn"
+                      [ngClass]="{
+                        'btn-dark':
+                          formGroupExtraGuest.get(
+                            'extra_' + extra.id_guest_extra
+                          )?.value === 'no',
+                        'btn-outline-dark':
+                          formGroupExtraGuest.get(
+                            'extra_' + extra.id_guest_extra
+                          )?.value !== 'no'
+                      }"
+                      (click)="
+                        formGroupExtraGuest
+                          .get('extra_' + extra.id_guest_extra)
+                          ?.setValue('no')
+                      "
+                      [style.boxShadow]="
+                        formGroupExtraGuest.get('extra_' + extra.id_guest_extra)
+                          ?.value === 'no'
+                          ? '0 0 10px rgba(0, 0, 0, 0.5)'
+                          : 'none'
+                      "
+                    >
+                      No
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </form>
         </div>
         <div class="col-sm-12 text-center mt-3" *ngIf="!isConfirmed">
-          <h6 *ngIf="isExtrasGuestVisible">
-            Escribe a continuación el nombre de tu(s) acompañante(s)
-          </h6>
-          <form
-            [formGroup]="formGroupExtraGuest"
-            (ngSubmit)="onSubmit()"
-            #formRefInvitation="ngForm"
-          >
-            <div
-              class="row"
-              *ngFor="
-                let extra of [].constructor(guestInfo.guest_extras);
-                let i = index
-              "
-            >
-              <div class="col-sm-8" *ngIf="isExtrasGuestVisible">
-                <input
-                  type="text"
-                  class="form-control mt-2"
-                  placeholder="Nombre del acompañante {{ i + 1 }}"
-                  [formControlName]="'extraGuest' + i"
-                  [ngClass]="{
-                    'is-invalid':
-                      formGroupExtraGuest.get('extraGuest' + i)?.invalid &&
-                      formGroupExtraGuest.get('extraGuest' + i)?.touched,
-                    'is-valid':
-                      formGroupExtraGuest.get('extraGuest' + i)?.valid &&
-                      formGroupExtraGuest.get('extraGuest' + i)?.touched
-                  }"
-                />
-                <div
-                  *ngIf="
-                    formGroupExtraGuest.get('extraGuest' + i)?.invalid &&
-                    formGroupExtraGuest.get('extraGuest' + i)?.touched
-                  "
-                  class="text-danger"
-                >
-                  Nombre del acompañante es requerido.
-                </div>
-              </div>
-              <div
-                class="col-sm-4 d-flex align-items-center"
-                *ngIf="isExtrasGuestVisible"
+          <div class="row mt-3">
+            <div class="col-sm-3">
+              <button class="btn btn-outline-dark w-100" (click)="onCancel()">
+                Cancelar
+              </button>
+            </div>
+            <div class="col-sm-9">
+              <form
+                [formGroup]="formGroupExtraGuest"
+                (ngSubmit)="onSubmit()"
+                #formRefInvitation="ngForm"
               >
-                <input
-                  type="checkbox"
-                  class="form-check-input mt-2"
-                  [formControlName]="'extraGuestCheckbox' + i"
-                  (change)="onCheckboxChange(i)"
-                />
-                <label class="form-check-label mt-2 ms-2"> Asistirá </label>
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-sm-3">
-                <button
-                  class="btn btn-outline-danger w-100"
-                  (click)="onCancel()"
-                >
-                  Cancelar
+                <button type="submit" class="btn btn-primary w-100">
+                  Enviar
                 </button>
-              </div>
-              <div class="col-sm-9">
-                <button type="submit" class="btn btn-dark w-100">Enviar</button>
-              </div>
+              </form>
             </div>
-          </form>
+          </div>
+        </div>
+      </div>
+      <div class="row text-center mt-5" *ngIf="isConfirmed">
+        <div class="col-sm-12">
+          <button class="btn btn-outline-dark btn-sm" (click)="onCancel()">
+            <fa-icon [icon]="faArrowLeft"></fa-icon> Volver
+          </button>
         </div>
       </div>
     </div>

@@ -9,16 +9,13 @@ import { LandingState } from '../../../landing,model';
 export const LandingReducer = createRehydrateReducer(
   { key: LANDING_FEATURE_KEY },
   initialLandingState,
-  on(
-    LandingActions.getGuest,
-    (state: LandingState, { guest_code, event_type }) => {
-      return {
-        ...state,
-        isLoading: true,
-        isError: false,
-      };
-    }
-  ),
+  on(LandingActions.getGuest, (state: LandingState, { guest_code }) => {
+    return {
+      ...state,
+      isLoading: true,
+      isError: false,
+    };
+  }),
   on(LandingActions.getGuestSuccess, (state: LandingState, { guest }) => {
     return {
       ...state,
@@ -68,14 +65,16 @@ export const LandingReducer = createRehydrateReducer(
     return {
       ...state,
       isLoading: true,
+      isError: false,
     };
   }),
   on(
     LandingActions.updateGuestInformationSuccess,
-    (state: LandingState, { isConfirmed }) => {
+    (state: LandingState, { guest }) => {
       return {
         ...state,
-        isConfirmed,
+        guest,
+        isValidated: true,
         isLoading: false,
         isError: false,
       };
@@ -86,36 +85,7 @@ export const LandingReducer = createRehydrateReducer(
     (state: LandingState, { error }) => {
       return {
         ...state,
-        isLoading: false,
-        isError: true,
-      };
-    }
-  ),
-  on(
-    LandingActions.getEventAccommodations,
-    (state: LandingState, { id_event }) => {
-      return {
-        ...state,
-        isLoading: true,
-      };
-    }
-  ),
-  on(
-    LandingActions.getEventAccommodationsSuccess,
-    (state: LandingState, { accommodations }) => {
-      return {
-        ...state,
-        accommodations,
-        isLoading: false,
-        isError: false,
-      };
-    }
-  ),
-  on(
-    LandingActions.getEventAccommodationsFailure,
-    (state: LandingState, { error }) => {
-      return {
-        ...state,
+        isValidated: false,
         isLoading: false,
         isError: true,
       };

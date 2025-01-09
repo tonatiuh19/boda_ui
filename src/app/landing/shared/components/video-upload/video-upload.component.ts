@@ -15,6 +15,7 @@ export class VideoUploadComponent implements OnInit {
   @Input() uploadForm!: FormGroup;
   @Input() videoControlName: string = 'video';
   @Input() loading: boolean = false;
+  @Input() idUser!: number;
   @Output() loadingChange = new EventEmitter<boolean>();
   @Output() messageChange = new EventEmitter<any>();
 
@@ -22,22 +23,13 @@ export class VideoUploadComponent implements OnInit {
     fromLanding.selectLandingState
   );
 
-  public idUser = 0;
-
   message: string = ''; // Add this line to define the message property
 
   private unsubscribe$ = new Subject<void>();
 
   constructor(private http: HttpClient, private store: Store) {}
 
-  ngOnInit(): void {
-    this.selectLandingState$
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((state) => {
-        console.log(state);
-        this.idUser = state.guest?.id_guest ?? 0;
-      });
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();

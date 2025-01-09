@@ -3,7 +3,7 @@
 }
 
 .custom-modal-border {
-  border: 2px solid #ab8d66; /* Gold color for a vintage look */
+  border: 1px solid #ab8d66; /* Gold color for a vintage look */
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
 }
@@ -30,6 +30,23 @@
 .custom-input:blur {
   background-color: #101b0d; /* Revert background color when blurred */
   color: #ab8d66; /* Revert text color when blurred */
+}
+
+.is-invalid.custom-input {
+  border-color: rgb(168, 168, 168) !important;
+  color: rgb(168, 168, 168) !important;
+}
+
+.was-validated .form-control:invalid,
+.form-control.is-invalid,
+.was-validated .form-control:valid,
+.form-control.is-valid {
+  border-color: rgb(168, 168, 168);
+  padding-right: calc(1.5em + 0.75rem);
+  background-image: none; /* Remove the icon */
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
 }
 
 .custom-select {
