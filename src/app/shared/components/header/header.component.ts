@@ -68,7 +68,7 @@ export class HeaderComponent implements OnInit, OnChanges {
     this.selectLandingState$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((state) => {
-        if (state.guest.id_guest === 0) {
+        if (!state.guest) {
           if (state.isValidated) {
             this.isError = true;
           }
@@ -147,6 +147,7 @@ export class HeaderComponent implements OnInit, OnChanges {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     const navbar = document.getElementById('navbar');
+    const logo = document.getElementById('logo');
 
     const targetElement = document.getElementById('target-element');
 
@@ -157,8 +158,10 @@ export class HeaderComponent implements OnInit, OnChanges {
 
         if (targetPosition <= navbarHeight) {
           //navbar.classList.add('bg-light');
+          logo?.classList.remove('d-none');
         } else {
           //navbar.classList.remove('bg-light');
+          logo?.classList.add('d-none');
         }
       }
     } else {

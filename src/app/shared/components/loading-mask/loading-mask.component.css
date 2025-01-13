@@ -11,20 +11,18 @@
   z-index: 9999;
 }
 
-.spinner {
-  border: 16px solid #f3f3f3;
-  border-top: 16px solid #000000;
-  border-radius: 50%;
-  width: 12px;
-  height: 12px;
-  animation: spin 0.5s linear infinite;
+.heart {
+  color: #ab8d66;
+  font-size: 100px;
+  animation: bump 0.5s infinite;
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
+@keyframes bump {
+  0%,
   100% {
-    transform: rotate(360deg);
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
   }
 }

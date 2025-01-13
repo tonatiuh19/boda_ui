@@ -6,13 +6,15 @@
   <div class="card card-responsive">
     <div class="card-body">
       <div class="container">
+        <div class="row text-center">
+          <div class="col-sm-12">
+            <span class="title_wedding full-cursive">Felix & Lesie</span>
+          </div>
+        </div>
         <div class="row text-center mb-3" *ngIf="isConfirmed">
           <div class="col-sm-12">
             <h1 class="text-center">
-              <span class="text-primary"
-                ><fa-icon [icon]="faCheckCircle"></fa-icon> ¡Gracias por tu
-                confirmación!</span
-              >
+              <span class="text-primary">¡Gracias por tu confirmación!</span>
             </h1>
           </div>
           <div class="col-sm-12 mt-3">
@@ -38,6 +40,12 @@
             <span
               ><em>{{ getProcessedText(guestInfo.guest_note) }}</em></span
             >
+          </div>
+          <div *ngIf="isConfirmation" class="col-sm-12 mt-4">
+            <button class="btn btn-outline-dark btn-sm m-1">
+              <fa-icon [icon]="faUserTie"></fa-icon>
+              Vestimenta: Rigurosa formal
+            </button>
           </div>
           <div *ngIf="isConfirmation" class="col-sm-12 mt-4">
             <button
@@ -67,7 +75,7 @@
         </div>
         <div class="row mt-3" *ngIf="isConfirmed">
           <div class="col-sm-12 text-center">
-            <button class="btn btn-primary">
+            <button class="btn btn-primary" (click)="onGiftsPanelToggle()">
               <fa-icon [icon]="faGifts"></fa-icon> Aqui puedes regalar algo
               especial
             </button>
@@ -313,7 +321,10 @@
         <div class="col-sm-12 text-center mt-3" *ngIf="!isConfirmed">
           <div class="row mt-3">
             <div class="col-sm-3">
-              <button class="btn btn-outline-dark w-100" (click)="onCancel()">
+              <button
+                class="btn btn-outline-dark w-100 m-1"
+                (click)="onCancel()"
+              >
                 Cancelar
               </button>
             </div>
@@ -323,7 +334,7 @@
                 (ngSubmit)="onSubmit()"
                 #formRefInvitation="ngForm"
               >
-                <button type="submit" class="btn btn-primary w-100">
+                <button type="submit" class="btn btn-primary w-100 m-1">
                   Enviar
                 </button>
               </form>
@@ -343,16 +354,8 @@
 </section>
 <p-sidebar [(visible)]="accomodationPanelVisible" position="right">
   <div class="row">
-    <div class="col-10">
+    <div class="col-12">
       <h3 class="text-center">Recomendaciones de hospedaje</h3>
-    </div>
-    <div class="col-1">
-      <button
-        class="btn btn-outline-danger btn-sm"
-        (click)="onAccomodationPanelToggle()"
-      >
-        <fa-icon [icon]="faTimes"></fa-icon>
-      </button>
     </div>
   </div>
   <div class="row mt-5">
@@ -364,7 +367,7 @@
         >
           <div class="row">
             <div class="col-sm-8">
-              <span class="h5">{{
+              <span class="h5 mb-2">{{
                 getProcessedText(accommodation.title)
               }}</span>
             </div>
@@ -380,7 +383,7 @@
             </div>
           </div>
           <div
-            class="row mmt-2 mb-1"
+            class="row mt-2 mb-1"
             *ngIf="
               accommodation.promo_code && accommodation.promo_code.trim() !== ''
             "
@@ -389,6 +392,34 @@
               Codigo de descuento:
               <strong>
                 {{ accommodation.promo_code }}
+              </strong>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</p-sidebar>
+
+<p-sidebar [(visible)]="giftsPanelVisible" position="right">
+  <div class="row">
+    <div class="col-12">
+      <h3 class="text-center">Aqui puedes regalar algo especial</h3>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-sm-12">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item" *ngFor="let gift of giftsList">
+          <div class="row">
+            <div class="col-sm-12">
+              <span class="h5 mb-2">{{ getProcessedText(gift.title) }}</span>
+            </div>
+          </div>
+          <div class="row mmt-2 mb-1">
+            <div class="col-sm-12">
+              <strong>
+                {{ gift.description }}
               </strong>
             </div>
           </div>

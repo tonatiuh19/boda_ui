@@ -47,7 +47,6 @@
 
 @media (max-width: 578px) {
   .content-container {
-    background-image: url("https://garbrix.com/regalame/assets/images/creator.png"); /* Background image for mobile screens */
     background-size: cover;
     background-position: center;
     color: white; /* Change text color for mobile screens */
@@ -97,6 +96,7 @@
 
 .display-date {
   font-weight: 300;
+  font-size: 1.2rem;
   line-height: 1.2;
 }
 

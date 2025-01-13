@@ -86,3 +86,19 @@
 .is-valid {
   border-color: #ab8d66 !important; /* Green color for valid input */
 }
+
+.custom-background {
+  background-color: #ffffff; /* White background */
+  border-right: 1px solid #ffffff; /* Border only on the right */
+  border-bottom: 1px solid #ffffff; /* Border only on the bottom */
+  border-bottom-right-radius: 10px; /* Rounded top-right corner */
+  padding-bottom: 5px; /* Padding only at the bottom */
+  padding-right: 10px; /* Padding only at the right */
+  display: inline-block; /* Ensure the background and border wrap the content */
+  position: absolute; /* Position the element absolutely */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  padding: 10px; /* Margin around the element */
+  padding-right: 20px; /* Margin only on the right */
+  font-size: 1.5rem;
+}

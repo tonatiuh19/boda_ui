@@ -2,7 +2,7 @@
 export const DOMAIN = 'https://garbrix.com/boda/api';
 
 export interface LandingState {
-  guest: GuestModel;
+  guest: GuestModel | boolean;
   landingMedia?: LandingMediaModel;
   isValidated?: boolean;
   isLoading?: boolean;
@@ -27,6 +27,7 @@ export interface GuestModel {
   confirmation: number;
   event_details: EventDetailsModel;
   accommodations: EventAccommodationsModel[];
+  gifts: GiftsModel[];
 }
 
 export interface EventDetailsModel {
@@ -73,4 +74,12 @@ export interface GuestExtra {
   email: string;
   phone: null;
   confirmation: number;
+}
+
+export interface GiftsModel {
+  id_event_gifts: number;
+  id_event: number;
+  title: string;
+  description: string;
+  active: number;
 }

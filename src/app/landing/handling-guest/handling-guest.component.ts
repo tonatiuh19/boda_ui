@@ -18,9 +18,14 @@ import {
   faExternalLinkAlt,
   faArrowLeft,
   faGifts,
+  faUserTie,
 } from '@fortawesome/free-solid-svg-icons';
 import { LandingActions } from '../shared/store/actions';
-import { EventAccommodationsModel, GuestModel } from '../landing,model';
+import {
+  EventAccommodationsModel,
+  GiftsModel,
+  GuestModel,
+} from '../landing,model';
 import { VideoUploadComponent } from '../shared/components/video-upload/video-upload.component';
 
 @Component({
@@ -30,9 +35,7 @@ import { VideoUploadComponent } from '../shared/components/video-upload/video-up
 })
 export class HandlingGuestComponent implements OnInit, OnDestroy {
   @ViewChild(VideoUploadComponent) videoUploadComponent!: VideoUploadComponent;
-  public selectLandingState$ = this.store.select(
-    fromLanding.selectLandingState
-  );
+  public selectGuest$ = this.store.select(fromLanding.selectGuest);
 
   public isloading$ = this.store.select(fromLanding.selecIsloading);
 
@@ -53,6 +56,7 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
   faTimes = faTimes;
   faArrowLeft = faArrowLeft;
   faGifts = faGifts;
+  faUserTie = faUserTie;
 
   getProcessedText = getProcessedText;
   public guestInfo: GuestModel = {} as GuestModel;
@@ -70,6 +74,9 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
 
   accomodationList: EventAccommodationsModel[] = [];
   accomodationPanelVisible: boolean = false;
+
+  giftsPanelVisible: boolean = false;
+  giftsList: GiftsModel[] = [];
 
   private unsubscribe$ = new Subject<void>();
 
@@ -90,11 +97,10 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.selectLandingState$
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((state) => {
-        this.idUser = state.guest?.id_guest ?? 0;
-        this.guestInfo = state.guest ?? ({} as GuestModel);
+    this.selectGuest$.pipe(takeUntil(this.unsubscribe$)).subscribe((guest) => {
+      if (guest && typeof guest !== 'boolean') {
+        this.guestInfo = guest;
+        this.idUser = guest.id_guest;
         this.addressString = this.guestInfo.event_details.address_line1
           ? `${this.guestInfo.event_details.address_line1}, ${this.guestInfo.event_details.address_line2}, ${this.guestInfo.event_details.city}, ${this.guestInfo.event_details.state}, ${this.guestInfo.event_details.postal_code}, ${this.guestInfo.event_details.country}`
           : '';
@@ -103,6 +109,7 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
         if (this.guestInfo.submited) {
           this.isConfirmed = true;
           this.accomodationList = this.guestInfo.accommodations ?? [];
+          this.giftsList = this.guestInfo.gifts ?? [];
         } else {
           this.isConfirmed = false;
         }
@@ -112,7 +119,8 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
         } else {
           this.isExtrasGuestVisible = false;
         }
-      });
+      }
+    });
 
     this.guestInfo.guest_extras.forEach((extra) => {
       this.formGroupExtraGuest.addControl(
@@ -213,5 +221,9 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
 
   onAccomodationPanelToggle() {
     this.accomodationPanelVisible = !this.accomodationPanelVisible;
+  }
+
+  onGiftsPanelToggle() {
+    this.giftsPanelVisible = !this.giftsPanelVisible;
   }
 }

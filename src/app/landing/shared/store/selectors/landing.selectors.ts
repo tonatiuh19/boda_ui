@@ -19,3 +19,8 @@ export const selectMainImagesVideos = createSelector(
   selectLandingState,
   (state: LandingState) => state.landingMedia
 );
+
+export const selectGuest = createSelector(
+  selectLandingState,
+  (state: LandingState) => state.guest
+);

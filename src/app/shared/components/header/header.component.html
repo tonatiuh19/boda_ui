@@ -8,8 +8,13 @@
   data-navbar-on-scroll="data-navbar-on-scroll"
 >
   <div class="container-fluid">
-    <a class="navbar-brand" href="#goTop"> F&L </a>
-    <div class="text-white"></div>
+    <a
+      id="logo"
+      class="navbar-brand full-cursive text-primary custom-background d-none"
+      href="#goTop"
+    >
+      Leslie & Felix
+    </a>
   </div>
 </nav>
 <button
@@ -77,10 +82,10 @@
                 </div>
               </div>
 
-              <div class="col-sm-12 text-center mt-2" *ngIf="isError">
-                <span class="badge text-bg-primary w-100"
-                  >Tu código no es válido o no estás invitado.</span
-                >
+              <div class="col-sm-12 text-center mt-4 mb-2" *ngIf="isError">
+                <h5 class="text-primary w-100">
+                  Tu código no es válido o no estás invitado.
+                </h5>
               </div>
             </form>
           </div>
