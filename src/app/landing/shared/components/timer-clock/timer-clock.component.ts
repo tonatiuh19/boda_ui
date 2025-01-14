@@ -5,6 +5,7 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  HostListener,
 } from '@angular/core';
 
 @Component({
@@ -35,6 +36,9 @@ export class TimerClockComponent implements OnInit, OnDestroy, OnChanges {
     minutes: false,
     seconds: false,
   };
+
+  isMobile: boolean = false;
+
   private intervalId: any;
 
   ngOnInit(): void {
@@ -92,5 +96,14 @@ export class TimerClockComponent implements OnInit, OnDestroy, OnChanges {
         this.animate[unit] = false;
       }, 300);
     }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize(): void {
+    this.isMobile = window.innerWidth <= 578; // Adjust the breakpoint as needed
   }
 }

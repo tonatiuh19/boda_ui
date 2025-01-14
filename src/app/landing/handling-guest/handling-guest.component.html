@@ -1,6 +1,6 @@
 <app-loading-mask *ngIf="isloading$ | async"></app-loading-mask>
 <section
-  class="d-flex justify-content-center align-items-center main-container pt-5"
+  class="d-flex justify-content-center align-items-center main-container pt-5 pb-5"
   id="goTop"
 >
   <div class="card card-responsive">
@@ -418,9 +418,7 @@
           </div>
           <div class="row mmt-2 mb-1">
             <div class="col-sm-12">
-              <strong>
-                {{ gift.description }}
-              </strong>
+              <strong [innerHTML]="gift.description"></strong>
             </div>
           </div>
         </li>

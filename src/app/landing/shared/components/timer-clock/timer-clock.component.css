@@ -15,3 +15,14 @@
 .animate-change {
   transform: scale(1.1);
 }
+
+@media (max-width: 578px) {
+  .timer-clock {
+    font-size: 0.7rem;
+  }
+
+  .timer-clock-value {
+    font-size: 1.5rem;
+    padding: 4px;
+  }
+}

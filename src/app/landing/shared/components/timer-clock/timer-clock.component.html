@@ -4,7 +4,10 @@
     <div class="col text-center timer-clock"><strong>Dias</strong></div>
     <div class="col text-center timer-clock"><strong>Horas</strong></div>
     <div class="col text-center timer-clock"><strong>Minutos</strong></div>
-    <div class="col text-center timer-clock"><strong>Segundos</strong></div>
+    <div class="col text-center timer-clock">
+      <strong *ngIf="!isMobile">Segundos</strong>
+      <strong *ngIf="isMobile">Secs</strong>
+    </div>
   </div>
   <div class="row">
     <div
