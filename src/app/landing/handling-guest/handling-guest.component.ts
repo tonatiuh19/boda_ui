@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  Renderer2,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -88,7 +94,8 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private renderer: Renderer2
   ) {
     this.formGroupExtraGuest = new FormGroup({
       valueConfirmation: new FormControl('yes', Validators.required),
@@ -102,6 +109,7 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.scrollToTop();
     this.selectGuest$.pipe(takeUntil(this.unsubscribe$)).subscribe((guest) => {
       if (guest && typeof guest !== 'boolean') {
         this.guestInfo = guest;
@@ -161,6 +169,11 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
     //this.store.dispatch(LandingActions.cleanGuest());
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  scrollToTop(): void {
+    this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
+    this.renderer.setProperty(document.body, 'scrollTop', 0);
   }
 
   onSubmit(): void {
