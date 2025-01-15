@@ -47,7 +47,17 @@
               Vestimenta: Rigurosa formal
             </button>
           </div>
-          <div *ngIf="isConfirmation" class="col-sm-12 mt-4">
+          <div class="col-sm-12 mt-4">
+            <h6 class="m-1">
+              <strong>{{ date }}</strong>
+            </h6>
+          </div>
+          <div class="col-sm-12">
+            <h6 class="m-1">
+              Recepción: <strong>{{ time }}</strong>
+            </h6>
+          </div>
+          <div class="col-sm-12 mt-1">
             <button
               class="btn btn-sm m-1"
               [ngClass]="{
@@ -75,7 +85,10 @@
         </div>
         <div class="row mt-3" *ngIf="isConfirmed">
           <div class="col-sm-12 text-center">
-            <button class="btn btn-primary" (click)="onGiftsPanelToggle()">
+            <button
+              class="btn btn-primary btn-sm"
+              (click)="onGiftsPanelToggle()"
+            >
               <fa-icon [icon]="faGifts"></fa-icon> Aqui puedes regalar algo
               especial
             </button>
@@ -131,6 +144,7 @@
               />
             </div>
             <app-video-upload
+              *ngIf="guestType === 1"
               [uploadForm]="formGroupExtraGuest"
               videoControlName="video"
               [loading]="loading"
@@ -413,7 +427,9 @@
         <li class="list-group-item" *ngFor="let gift of giftsList">
           <div class="row">
             <div class="col-sm-12">
-              <span class="h5 mb-2">{{ getProcessedText(gift.title) }}</span>
+              <strong class="h5 mb-2">{{
+                getProcessedText(gift.title)
+              }}</strong>
             </div>
           </div>
           <div class="row mmt-2 mb-1">

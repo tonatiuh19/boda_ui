@@ -19,6 +19,7 @@ import {
   faArrowLeft,
   faGifts,
   faUserTie,
+  faClock,
 } from '@fortawesome/free-solid-svg-icons';
 import { LandingActions } from '../shared/store/actions';
 import {
@@ -57,6 +58,7 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
   faArrowLeft = faArrowLeft;
   faGifts = faGifts;
   faUserTie = faUserTie;
+  faClock = faClock;
 
   getProcessedText = getProcessedText;
   public guestInfo: GuestModel = {} as GuestModel;
@@ -77,6 +79,9 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
 
   giftsPanelVisible: boolean = false;
   giftsList: GiftsModel[] = [];
+  time: string = '';
+  date: string = '';
+  guestType: number = 0;
 
   private unsubscribe$ = new Subject<void>();
 
@@ -106,6 +111,13 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
           : '';
         this.isTitle = this.guestInfo.title !== '';
         this.isConfirmation = this.guestInfo.confirmation === 1;
+        this.time = this.formatTime(
+          this.guestInfo.event_details.event_date.toString()
+        );
+        this.date = this.formatDate(
+          this.guestInfo.event_details.event_date.toString()
+        );
+        this.guestType = this.guestInfo.guest_type;
         if (this.guestInfo.submited) {
           this.isConfirmed = true;
           this.accomodationList = this.guestInfo.accommodations ?? [];
@@ -119,28 +131,30 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
         } else {
           this.isExtrasGuestVisible = false;
         }
+
+        this.guestInfo.guest_extras.forEach((extra) => {
+          this.formGroupExtraGuest.addControl(
+            'extra_' + extra.id_guest_extra,
+            this.fb.control(
+              extra.confirmation === 0 ? 'yes' : 'no',
+              Validators.required
+            )
+          );
+        });
+
+        if (this.isTitle) {
+          this.formGroupExtraGuest.addControl(
+            'extra_guest_' + this.guestInfo.id_guest,
+            this.fb.control(
+              this.guestInfo.confirmation === 0 ? 'yes' : 'no',
+              Validators.required
+            )
+          );
+        }
+      } else {
+        this.router.navigate(['']);
       }
     });
-
-    this.guestInfo.guest_extras.forEach((extra) => {
-      this.formGroupExtraGuest.addControl(
-        'extra_' + extra.id_guest_extra,
-        this.fb.control(
-          extra.confirmation === 0 ? 'yes' : 'no',
-          Validators.required
-        )
-      );
-    });
-
-    if (this.isTitle) {
-      this.formGroupExtraGuest.addControl(
-        'extra_guest_' + this.guestInfo.id_guest,
-        this.fb.control(
-          this.guestInfo.confirmation === 0 ? 'yes' : 'no',
-          Validators.required
-        )
-      );
-    }
   }
 
   ngOnDestroy(): void {
@@ -152,7 +166,10 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     if (this.formGroupExtraGuest.valid) {
       // Handle form submission
-      this.videoUploadComponent.uploadVideo();
+      if (this.guestType === 1) {
+        this.videoUploadComponent.uploadVideo();
+      }
+
       if (!this.isTitle) {
         this.store.dispatch(
           LandingActions.updateGuestInformation({
@@ -183,6 +200,39 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
     } else {
       this.formGroupExtraGuest.markAllAsTouched();
     }
+  }
+
+  formatTime(dateString: string): string {
+    const date = new Date(dateString);
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    const minutesStr = minutes < 10 ? '0' + minutes : minutes;
+    return `${hours}:${minutesStr} ${ampm}`;
+  }
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const monthNames = [
+      'Enero',
+      'Febrero',
+      'Marzo',
+      'Abril',
+      'Mayo',
+      'Junio',
+      'Julio',
+      'Agosto',
+      'Septiembre',
+      'Octubre',
+      'Noviembre',
+      'Diciembre',
+    ];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day} de ${month}, ${year}`;
   }
 
   extractExtraGuestIds(value: { [key: string]: any }): {

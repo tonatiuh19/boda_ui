@@ -46,6 +46,7 @@
   background-color: rgba(0, 0, 0, 0.8);
   opacity: 0;
   transition: opacity 0.5s ease;
+  padding-top: 10vh !important;
 }
 
 .modal.show {
