@@ -1,0 +1,150 @@
+<app-loading-mask *ngIf="isLoading"></app-loading-mask>
+<div
+  *ngIf="!isPlannerValid"
+  class="d-flex justify-content-center align-items-center vh-100"
+>
+  <div class="card text-center">
+    <div class="card-body">
+      <h1 class="card-title mb-4 full-cursive text-primary">Leslie & Felix</h1>
+      <h5 class="card-title">Validar Wedding Planner</h5>
+      <p class="card-text">Por favor, ingrese el código de validación.</p>
+      <form [formGroup]="validationForm" (ngSubmit)="validateCode()">
+        <input
+          type="text"
+          class="form-control mb-3 text-uppercase"
+          placeholder="Código de validación"
+          formControlName="validationCode"
+          style="text-transform: uppercase"
+        />
+        <button class="btn btn-primary" type="submit">Validar</button>
+        <div
+          *ngIf="
+            validationForm.get('validationCode')?.hasError('required') &&
+            validationForm.get('validationCode')?.touched
+          "
+          class="text-danger mt-2"
+        >
+          El código de validación es requerido.
+        </div>
+        <div
+          *ngIf="validationForm.get('validationCode')?.hasError('incorrect')"
+          class="text-danger mt-2"
+        >
+          Código de validación incorrecto. Por favor, inténtelo de nuevo.
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<nav
+  *ngIf="isPlannerValid"
+  class="navbar navbar-expand-lg navbar-light bg-light fixed-top"
+>
+  <div class="container-fluid">
+    <a id="logo" class="navbar-brand full-cursive text-primary" href="#goTop">
+      Leslie & Felix
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#" (click)="logout()">Cerrar Sesión</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div *ngIf="isPlannerValid" class="container mt-5 pt-5">
+  <div class="row justify-content-center">
+    <div class="col-sm-8 my-3">
+      <h3 class="text-center">
+        <strong>{{ getProcessedText(weddingPlanner.full_name) }}</strong>
+      </h3>
+      <h1 class="text-center"><strong>Lista de Invitados</strong></h1>
+    </div>
+    <div class="col-sm-8">
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let guest of paginatedGuests">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h3>
+                Invitación: <strong>{{ guest.guest_code }}</strong>
+              </h3>
+              <h5 *ngIf="guest.title">{{ getProcessedText(guest.title) }}</h5>
+            </div>
+          </div>
+          <ul class="list-group list-group-flush mt-2">
+            <li
+              class="list-group-item me-5"
+              *ngFor="let subGuest of getSubGuests(guest.id_guest)"
+            >
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6>
+                    {{ getProcessedText(subGuest.full_name) }}
+                    <fa-icon
+                      *ngIf="subGuest.guest_type === 2"
+                      [icon]="faBaby"
+                    ></fa-icon>
+                  </h6>
+                  <p *ngIf="!guest.title && subGuest.id_guest_parent !== ''">
+                    <small
+                      >Invitado de:
+                      {{ getProcessedText(guest.full_name) }}</small
+                    >
+                  </p>
+                  <p>
+                    <small
+                      >Mesa: {{ subGuest.table }}, Silla:
+                      {{ subGuest.chair }}</small
+                    >
+                  </p>
+                </div>
+                <div class="button-container">
+                  <button
+                    class="btn btn-primary btn-sm"
+                    (click)="checkIn(subGuest)"
+                  >
+                    Check-in
+                  </button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <nav aria-label="Page navigation" class="mt-3">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link" (click)="changePage(currentPage - 1)"
+              >Anterior</a
+            >
+          </li>
+          <li
+            class="page-item"
+            *ngFor="let page of totalPagesArray"
+            [class.active]="currentPage === page"
+          >
+            <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <a class="page-link" (click)="changePage(currentPage + 1)"
+              >Siguiente</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>

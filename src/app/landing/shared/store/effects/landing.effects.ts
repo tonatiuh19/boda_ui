@@ -68,6 +68,58 @@ export class LandingEffects {
     );
   });
 
+  getAllGuests$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(LandingActions.getAllGuests),
+      switchMap(({}) => {
+        return this.landingService.getAllGuests().pipe(
+          map((response) => {
+            return LandingActions.getAllGuestsSuccess({
+              guests: response,
+            });
+          }),
+          catchError((error) => {
+            return of(LandingActions.getAllGuestsFailure({ error }));
+          })
+        );
+      })
+    );
+  });
+
+  validateWeddingPlanner$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(LandingActions.validateWeddingPlanner),
+      switchMap(({ code }) => {
+        return this.landingService.validateWeddingPlanner(code).pipe(
+          map((response) => {
+            return LandingActions.validateWeddingPlannerSuccess({
+              response,
+            });
+          }),
+          catchError((error) => {
+            return of(LandingActions.validateWeddingPlannerFailure({ error }));
+          })
+        );
+      })
+    );
+  });
+
+  checkSession$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(LandingActions.checkSession),
+      switchMap(({ date, id_guest }) => {
+        return this.landingService.checkSession(date, id_guest).pipe(
+          map((response) => {
+            return LandingActions.checkSessionSuccess({ resp: response });
+          }),
+          catchError((error) => {
+            return of(LandingActions.checkSessionFailure({ error }));
+          })
+        );
+      })
+    );
+  });
+
   constructor(
     private actions$: Actions,
     private store: Store,

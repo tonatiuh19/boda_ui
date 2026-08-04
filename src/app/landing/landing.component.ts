@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { LandingActions } from './shared/store/actions';
 import { Subject, takeUntil } from 'rxjs';
 import { LandingMediaModel } from './landing,model';
+import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-landing',
@@ -26,6 +27,8 @@ export class LandingComponent implements OnInit {
   isMobile: boolean = false;
 
   triggerModalGuest: boolean = false;
+
+  faArrowDown = faArrowDown;
 
   public mainImagesVideos: LandingMediaModel = {} as LandingMediaModel;
 
@@ -46,6 +49,7 @@ export class LandingComponent implements OnInit {
     this.selectMainImagesVideos$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((mainImagesVideos) => {
+        console.log('mainImagesVideos', mainImagesVideos);
         if (mainImagesVideos) {
           this.mainImagesVideos = mainImagesVideos;
         }

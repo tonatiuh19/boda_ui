@@ -1,0 +1,16 @@
+.component.css */ .button-container {
+  margin-left: auto;
+}
+
+.list-group-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.list-group-item > .d-flex {
+  width: 100%;
+}
+
+.pagination {
+  margin-top: 20px;
+}

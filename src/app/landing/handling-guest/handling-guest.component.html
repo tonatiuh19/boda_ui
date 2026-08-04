@@ -8,7 +8,7 @@
       <div class="container">
         <div class="row text-center">
           <div class="col-sm-12">
-            <span class="title_wedding full-cursive">Felix & Lesie</span>
+            <span class="title_wedding full-cursive">Felix & Leslie</span>
           </div>
         </div>
         <div class="row text-center mb-3" *ngIf="isConfirmed">
@@ -19,6 +19,7 @@
           </div>
           <div class="col-sm-12 mt-3">
             <img
+              *ngIf="guestInfo.photo"
               [src]="guestInfo.photo"
               alt="confirmed"
               class="img-fluid"
@@ -35,6 +36,14 @@
               {{ getProcessedText(guestInfo.full_name) }}
             </h1>
             <h1 *ngIf="isTitle">{{ getProcessedText(guestInfo.title) }}</h1>
+          </div>
+          <div
+            class="col-sm-12 mb-3"
+            *ngIf="!isTitle || guestInfo.guest_extras.length === 0"
+          >
+            <strong>Mesa:</strong> {{ guestInfo.table }},
+            <strong>Silla</strong>:
+            {{ guestInfo.chair }}
           </div>
           <div class="col-sm-12">
             <span
@@ -73,7 +82,7 @@
             <button
               class="btn btn-sm btn-primary m-1"
               (click)="onAccomodationPanelToggle()"
-              *ngIf="isConfirmed"
+              *ngIf="isConfirmed && isConfirmation"
             >
               <fa-icon [icon]="faSuitcaseRolling"></fa-icon>
               Recomendaciones de hospedaje
@@ -165,7 +174,7 @@
               }}
               acompañante(s). ¿Confirmas su asistencia?</strong
             >
-            <strong *ngIf="isConfirmed"
+            <strong *ngIf="isConfirmed && isConfirmation"
               >Tu invitación incluye a
               {{
                 isTitle
@@ -192,12 +201,14 @@
                       class="form-check-label"
                       [for]="'extra-' + guestInfo.id_guest"
                     >
-                      {{ getProcessedText(guestInfo.full_name) }}
-                    </label>
+                      {{ getProcessedText(guestInfo.full_name) }} </label
+                    >: <strong>Mesa:</strong> {{ guestInfo.table }},
+                    <strong>Silla</strong>:
+                    {{ guestInfo.chair }}
                   </div>
                   <div class="col-sm-6" *ngIf="!isConfirmed">
                     <button
-                      class="btn m-1"
+                      class="btn buttonCheck m-1"
                       [ngClass]="{
                         'btn-primary':
                           formGroupExtraGuest.get(
@@ -270,12 +281,14 @@
                       class="form-check-label"
                       [for]="'extra-' + extra.id_guest_extra"
                     >
-                      {{ getProcessedText(extra.full_name) }}
-                    </label>
+                      {{ getProcessedText(extra.full_name) }} </label
+                    >: <strong>Mesa:</strong> {{ extra.table }},
+                    <strong>Silla</strong>:
+                    {{ extra.chair }}
                   </div>
                   <div class="col-sm-6" *ngIf="!isConfirmed">
                     <button
-                      class="btn m-1"
+                      class="btn buttonCheck m-1"
                       [ngClass]="{
                         'btn-primary':
                           formGroupExtraGuest.get(
@@ -426,15 +439,18 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item" *ngFor="let gift of giftsList">
           <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12 mb-3">
               <strong class="h5 mb-2">{{
                 getProcessedText(gift.title)
               }}</strong>
             </div>
           </div>
-          <div class="row mmt-2 mb-1">
+          <div class="row mt-2 mb-1">
             <div class="col-sm-12">
-              <strong [innerHTML]="gift.description"></strong>
+              <strong
+                class="gift-description"
+                [innerHTML]="gift.description"
+              ></strong>
             </div>
           </div>
         </li>

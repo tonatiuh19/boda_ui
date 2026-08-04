@@ -24,3 +24,18 @@ export const selectGuest = createSelector(
   selectLandingState,
   (state: LandingState) => state.guest
 );
+
+export const selectGuests = createSelector(
+  selectLandingState,
+  (state: LandingState) => state.guests
+);
+
+export const selectWeddingPlanner = createSelector(
+  selectLandingState,
+  (state: LandingState) => state.weddingPlanner
+);
+
+export const selectSession = createSelector(
+  selectLandingState,
+  (state: LandingState) => state.session
+);

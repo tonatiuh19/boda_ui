@@ -82,3 +82,12 @@
   font-weight: 700;
   color: #ab8d66;
 }
+
+.buttonCheck:hover {
+  background-color: #ab8d66 !important; /* Keep the background color unchanged */
+  box-shadow: #ab8d66 !important; /* Remove any box shadow */
+}
+
+.gift-description {
+  font-size: 1.25rem; /* Adjust the font size as needed */
+}

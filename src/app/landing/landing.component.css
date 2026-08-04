@@ -118,3 +118,29 @@
 .our-story-font {
   font-size: 1.2rem;
 }
+
+.floating-effect {
+  position: relative;
+  display: inline-block;
+}
+
+.floating-image {
+  animation: float 2s ease-in-out infinite;
+}
+
+.bottom {
+  position: absolute;
+  bottom: 0;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px); /* Adjust the floating distance as needed */
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

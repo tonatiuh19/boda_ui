@@ -20,6 +20,7 @@ export const LandingReducer = createRehydrateReducer(
     return {
       ...state,
       guest,
+      session: false,
       isValidated: true,
       isLoading: false,
       isError: false,
@@ -117,5 +118,80 @@ export const LandingReducer = createRehydrateReducer(
         isError: true,
       };
     }
-  )
+  ),
+  on(LandingActions.getAllGuests, (state: LandingState, {}) => {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }),
+  on(LandingActions.getAllGuestsSuccess, (state: LandingState, { guests }) => {
+    return {
+      ...state,
+      guests,
+      isLoading: false,
+      isError: false,
+    };
+  }),
+  on(LandingActions.getAllGuestsFailure, (state: LandingState, { error }) => {
+    return {
+      ...state,
+      isLoading: false,
+      isError: true,
+    };
+  }),
+  on(LandingActions.validateWeddingPlanner, (state: LandingState, {}) => {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }),
+  on(
+    LandingActions.validateWeddingPlannerSuccess,
+    (state: LandingState, { response }) => {
+      return {
+        ...state,
+        weddingPlanner: typeof response === 'boolean' ? undefined : response,
+        isLoading: false,
+        isError: false,
+      };
+    }
+  ),
+  on(
+    LandingActions.validateWeddingPlannerFailure,
+    (state: LandingState, { error }) => {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    }
+  ),
+  on(LandingActions.resetWeddingPlanner, (state: LandingState) => {
+    return {
+      ...state,
+      weddingPlanner: undefined,
+    };
+  }),
+  on(LandingActions.checkSession, (state: LandingState) => {
+    return {
+      ...state,
+      isLoading: false,
+    };
+  }),
+  on(LandingActions.checkSessionSuccess, (state: LandingState, { resp }) => {
+    return {
+      ...state,
+      session: resp,
+      isLoading: false,
+      isError: false,
+    };
+  }),
+  on(LandingActions.checkSessionFailure, (state: LandingState, { error }) => {
+    return {
+      ...state,
+      isLoading: false,
+      isError: true,
+    };
+  })
 );

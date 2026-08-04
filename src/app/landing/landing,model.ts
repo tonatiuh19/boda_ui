@@ -4,6 +4,9 @@ export const DOMAIN = 'https://garbrix.com/boda/api';
 export interface LandingState {
   guest: GuestModel | boolean;
   landingMedia?: LandingMediaModel;
+  guests?: GuestFullModel[];
+  weddingPlanner?: WeddingPlannerModel;
+  session?: boolean;
   isValidated?: boolean;
   isLoading?: boolean;
   isError?: boolean;
@@ -23,6 +26,8 @@ export interface GuestModel {
   title: string;
   date_confirmed: string;
   submited: boolean;
+  table: number;
+  chair: number;
   guest_extras: GuestExtra[];
   confirmation: number;
   event_details: EventDetailsModel;
@@ -74,6 +79,8 @@ export interface GuestExtra {
   email: string;
   phone: null;
   confirmation: number;
+  table: number;
+  chair: number;
 }
 
 export interface GiftsModel {
@@ -82,4 +89,29 @@ export interface GiftsModel {
   title: string;
   description: string;
   active: number;
+}
+export interface GuestFullModel {
+  id_guest: number;
+  id_guest_parent: number | string;
+  full_name: string;
+  title: string;
+  email: string;
+  phone: string;
+  guest_code: string;
+  event_type: number | string;
+  event_label: string;
+  guest_type: number | string;
+  guest_note: string;
+  photo: string;
+  confirmation: number;
+  date_confirmed: string;
+  submited: number | string;
+  table: number | string;
+  chair: number | string;
+}
+
+export interface WeddingPlannerModel {
+  id_event: number;
+  full_name: string;
+  code: string;
 }

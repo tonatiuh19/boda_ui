@@ -14,7 +14,7 @@ import {
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { fromLanding } from '../shared/store/selectors';
-import { Subject, takeUntil, distinctUntilChanged } from 'rxjs';
+import { Subject, takeUntil, distinctUntilChanged, interval } from 'rxjs';
 import { getProcessedText } from '../../shared/utils/get-proccessed-text';
 import {
   faMapMarkerAlt,
@@ -43,6 +43,8 @@ import { VideoUploadComponent } from '../shared/components/video-upload/video-up
 export class HandlingGuestComponent implements OnInit, OnDestroy {
   @ViewChild(VideoUploadComponent) videoUploadComponent!: VideoUploadComponent;
   public selectGuest$ = this.store.select(fromLanding.selectGuest);
+
+  public checkSession$ = this.store.select(fromLanding.selectSession);
 
   public isloading$ = this.store.select(fromLanding.selecIsloading);
 
@@ -109,9 +111,25 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getFullYear()}-${(
+      '0' +
+      (currentDate.getMonth() + 1)
+    ).slice(-2)}-${('0' + currentDate.getDate()).slice(-2)} ${(
+      '0' + currentDate.getHours()
+    ).slice(-2)}:${('0' + currentDate.getMinutes()).slice(-2)}:${(
+      '0' + currentDate.getSeconds()
+    ).slice(-2)}`;
+
     this.scrollToTop();
+    this.checkSession$.pipe(takeUntil(this.unsubscribe$)).subscribe((check) => {
+      if (check) {
+        this.onCancel();
+      }
+    });
     this.selectGuest$.pipe(takeUntil(this.unsubscribe$)).subscribe((guest) => {
       if (guest && typeof guest !== 'boolean') {
+        console.log('Guest', guest);
         this.guestInfo = guest;
         this.idUser = guest.id_guest;
         this.addressString = this.guestInfo.event_details.address_line1
@@ -163,6 +181,17 @@ export class HandlingGuestComponent implements OnInit, OnDestroy {
         this.router.navigate(['']);
       }
     });
+
+    interval(3000)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {
+        this.store.dispatch(
+          LandingActions.checkSession({
+            date: formattedDate,
+            id_guest: this.idUser,
+          })
+        );
+      });
   }
 
   ngOnDestroy(): void {

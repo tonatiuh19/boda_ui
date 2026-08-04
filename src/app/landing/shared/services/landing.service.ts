@@ -11,6 +11,9 @@ export class LandingService {
   public UPDATE_GUEST_DETAILS = `${DOMAIN}/updateGuestDetails.php`;
   public GET_EVENT_ACCOMMODATIONS = `${DOMAIN}/getEventAccommodations.php`;
   public GET_MAIN_IMAGES = `https://garbrix.com/boda/api/getMainImages.php`;
+  public GET_ALL_GUESTS = `${DOMAIN}/getAllGuests.php`;
+  public VALIDATE_WEDDING_PLANNER = `${DOMAIN}/validateWeddingPlanner.php`;
+  public CHECK_SESSION = `${DOMAIN}/checkSession.php`;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -55,6 +58,39 @@ export class LandingService {
       .post(this.GET_MAIN_IMAGES, {
         mainDirectory,
         secondaryDirectory,
+      })
+      .pipe(
+        map((response) => {
+          return response;
+        })
+      );
+  }
+
+  public getAllGuests(): Observable<any> {
+    return this.httpClient.post(this.GET_ALL_GUESTS, {}).pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  }
+
+  public validateWeddingPlanner(code: string): Observable<any> {
+    return this.httpClient
+      .post(this.VALIDATE_WEDDING_PLANNER, {
+        code,
+      })
+      .pipe(
+        map((response) => {
+          return response;
+        })
+      );
+  }
+
+  public checkSession(date: string, id_guest: number): Observable<any> {
+    return this.httpClient
+      .post(this.CHECK_SESSION, {
+        date,
+        id_guest,
       })
       .pipe(
         map((response) => {

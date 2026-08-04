@@ -9,6 +9,8 @@ import { VideoUploadModule } from './shared/components/video-upload/video-upload
 import { GalleryModule } from './shared/components/gallery/gallery.module';
 import { TimerClockModule } from './shared/components/timer-clock/timer-clock.module';
 import { GalleryCarouselModule } from './shared/components/gallery-carousel/gallery-carousel.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { PlannerModule } from './planner/planner.module';
 
 @NgModule({
   declarations: [LandingComponent],
@@ -22,6 +24,8 @@ import { GalleryCarouselModule } from './shared/components/gallery-carousel/gall
     GalleryModule,
     TimerClockModule,
     GalleryCarouselModule,
+    FontAwesomeModule,
+    PlannerModule,
   ],
   exports: [LandingComponent],
 })
